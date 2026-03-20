@@ -239,8 +239,49 @@ header.scrolled .visitor-count { display: flex; }
 .nav-pill:hover { border-color: var(--text); color: var(--text); background: var(--subtle); }
 @keyframes pillIn { from { opacity:0; transform:translateY(8px) scale(0.95); } to { opacity:1; transform:translateY(0) scale(1); } }
 
-@media (max-width: 500px) {
-  .landing-name { font-size: 2.6rem; }
+@media (max-width: 600px) {
+  /* Header */
+  header { padding: 0 1rem; }
+  .header-name { font-size: 15px; }
+  .li-btn span { display: none; }
+
+  /* Landing */
+  .landing { padding: 0 1rem 160px; }
+  .landing-name { font-size: clamp(2.4rem, 14vw, 3.2rem); }
+  .landing-tagline { font-size: 0.9rem; }
+
+  /* Messages */
+  .messages { padding: 60px 1rem 1rem; }
+  .msg-bubble { font-size: 13px; max-width: 90%; }
+
+  /* Input zone */
+  .input-zone { padding: 0 1rem 1rem; }
+  .input-zone.centered { transform: translate(-50%, 10%); }
+  .chat-input { font-size: 14px; padding: 11px 8px 11px 13px; }
+
+  /* Chips - allow wrapping on mobile */
+  .chip { white-space: normal; text-align: center; font-size: 11px; padding: 5px 11px; }
+  .chips-main { justify-content: center; }
+
+  /* Panels */
+  .stat-grid { grid-template-columns: 1fr 1fr; gap: 5px; }
+  .stat-value { font-size: 18px; }
+  .panel-inner { padding: 12px; }
+  .tl-item { padding-bottom: 16px; }
+
+  /* Visited nav - scroll horizontal on mobile */
+  .visited-nav { flex-wrap: nowrap; overflow-x: auto; padding: 0 1rem 0.5rem; justify-content: flex-start; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .visited-nav::-webkit-scrollbar { display: none; }
+  .nav-pill { white-space: nowrap; flex-shrink: 0; }
+
+  /* Recruiter banner */
+  .recruiter-banner { font-size: 11px; padding: 6px 12px; }
+}
+
+@media (max-width: 380px) {
+  .landing-name { font-size: 2.2rem; }
+  .header-right { gap: 6px; }
+  .theme-btn { display: none; }
 }
 </style>
 </head>
@@ -471,14 +512,13 @@ function toggleTheme() {
 }
 
 /* ── VISITOR COUNT ── */
-async function loadVisitorCount() {
-  try {
-    const r = await fetch('/api/visitors');
-    if (r.ok) {
-      const d = await r.json();
-      document.getElementById('visitorNum').textContent = d.count + (lang==='fr' ? ' visites' : ' visits');
-    }
-  } catch(e) {}
+function loadVisitorCount() {
+  const launch = new Date('2026-03-20');
+  const now = new Date();
+  const days = Math.floor((now - launch) / (1000 * 60 * 60 * 24));
+  const el = document.getElementById('visitorNum');
+  if (days === 0) el.textContent = lang === 'fr' ? 'Lancé aujourd\'hui' : 'Launched today';
+  else el.textContent = (lang === 'fr' ? 'En ligne depuis ' : 'Live for ') + days + (lang === 'fr' ? ' jours' : ' days');
 }
 
 /* ── TYPEWRITER ── */
