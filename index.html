@@ -560,8 +560,9 @@ header.scrolled .back-btn { display: flex; }
     <button class="chip" onclick="chipSend(this)" data-fr="Ses automatisations" data-en="His automations">Ses automatisations</button>
     <button class="chip" onclick="chipSend(this)" data-fr="Side projects" data-en="Side projects">Side projects</button>
     <button class="chip" onclick="chipSend(this)" data-fr="Parcours pro" data-en="Career path">Parcours pro</button>
+    <button class="chip" onclick="chipSend(this)" data-fr="Prospection B2B" data-en="B2B prospecting">Prospection B2B</button>
+    <button class="chip" onclick="chipSend(this)" data-fr="Son point de vue sur l'IA" data-en="His take on AI">Son point de vue sur l'IA</button>
     <button class="chip" onclick="chipSend(this)" data-fr="Vue synthétique" data-en="Quick summary">Vue synthétique</button>
-    <button class="chip" onclick="chipSend(this)" data-fr="Carnetto" data-en="Carnetto">Carnetto</button>
   </div>
 </div>
 
@@ -648,13 +649,21 @@ PANNEAUX — réponds UNIQUEMENT avec ce JSON exact, sans texte autour :
 - Question sur vue synthétique / résumé / compétences / CV → {"panel":"cv","intro":"Vue synthétique du profil d'Evan — compétences et objectif."}
 - Message contenant 'surprise' ou 'easter egg' → {"panel":"easter","intro":"Vous avez trouvé l'easter egg."}
 - Question sur comment ce site a été créé / construit / fait / la stack technique du portfolio → {"panel":"built","intro":"Ce site a été cadré en une soirée et sorti en production le lendemain matin."}
+- Question sur la prospection / Lemlist / cold email / taux / campagne → {"panel":"prospection","intro":"4 191 contacts touchés en 2025, 43.5% de taux d'ouverture — voici les chiffres réels."}
+- Question sur le pipeline de devis / automatisation Make / GPT / traitement devis → {"panel":"pipeline","intro":"10 minutes par devis réduit à 10 secondes — voici comment ça fonctionne."}
+- Question sur Carnetto en détail / SaaS / Lovable / badge platine → {"panel":"carnetto","intro":"100 licences vendues, rebuilt avec l'IA — voici l'histoire de Carnetto."}
+- Question sur le point de vue IA / philosophie IA / ce que tu penses de l'IA / humain augmenté → {"panel":"ai","intro":"Ce que j'observe vraiment — pas le discours ambiant, l'expérience terrain."}
 
-PROFIL COMPLET :
-Momentum Group : pipeline devis automatisé (Make + GPT, ~20/jour, lecture mail → extraction réf → prix → réponse → Pipedrive → relance), pipeline SEO Make + Claude + WordPress actif, scripts Python (copie photos/fiches via Excel, annuaire liens revendeurs, génération photos produit IA), CRM Pipedrive, prospection Lemlist multi-secteur (aéronautique, agroalimentaire, industrie lourde), refontes WordPress + audits Semrush.
+PROFIL COMPLET ENRICHI :
+Momentum Group : pipeline devis automatisé (Make + GPT, ~20/jour, 10 min → 10 sec par devis, lecture mail → extraction réf → prix → réponse → Pipedrive → relance, 200 min ADV libérées/jour, limite : lecture PDF imparfaite), pipeline SEO Make + Claude + WordPress actif, scripts Python (copie photos/fiches via Excel, annuaire liens revendeurs, génération photos produit IA), CRM Pipedrive, prospection Lemlist (4 191 contacts, 43.5% ouverture, 3.2% réponse, 88.7% délivrabilité, 13 381 emails, clustering sectoriel aéronautique/défense/agroalimentaire/industrie lourde, icebreakers personnalisés), refontes WordPress + audits Semrush.
 BonjourCyber : 1er employé, stack from scratch (CRM, Webflow, cold email, Meta/LinkedIn/Google Ads), cybersécurité B2B, formation anti-phishing.
 IonBench : responsable marketing, industrie scientifique (spectrométrie de masse).
-Side projects : Carnetto (SaaS gamifié ~100 licences vendues), Feedcasse (pipeline Python + IA + publication vidéo), Handspinner (détection tendance US, 1er sur le marché FR), Tesla Marketplace (WooCommerce).
-Compétences : Make, API Claude/GPT, Python, Pipedrive, WordPress/WooCommerce/PrestaShop, Lemlist, Semrush, Meta/Google/LinkedIn Ads, Webflow, SEO, automation, prompt engineering.
+Carnetto : SaaS gamifié suivi entretien véhicule électrique, freemium 14j → 3.99€/mois, ~100 licences, acquisition via groupes Meta voitures électriques, rebuild avec Lovable (badge Platine), frein : scaling payant coûteux vs LTV.
+Feedcasse : pipeline Python + IA + publication vidéo courte Instagram/TikTok, stack solide, mauvaise lecture codes culturels plateforme.
+Handspinner : détection tendance US, 1er sur marché FR.
+Tesla Marketplace : WooCommerce, concept marketplace verticale.
+Point de vue IA : "l'IA ne fait pas à ta place, tu es obligé d'itérer". Gains réels : productivité massive, livrables de meilleure qualité, presque rien ne peut coincer. Philosophie : humain augmenté, l'IA libère du temps pour exercer le jugement.
+Badge Platine Lovable. Compétences : Make, API Claude/GPT, Python, Pipedrive, WordPress/WooCommerce/PrestaShop, Lemlist, Semrush, Meta/Google/LinkedIn Ads, Webflow, SEO, automation, prompt engineering.
 Recherche : poste Directeur Digital / Responsable IA & Innovation en ETI ou PME ambitieuse.`;
 
 /* TAGLINES */
@@ -788,11 +797,15 @@ function buildEaster() {
 }
 
 const PANELS = {
-  projects: { icon:'🚀', label:{fr:'Side projects',en:'Side projects'}, sub:{fr:'5 projets',en:'5 projects'}, build:buildProjects },
-  career:   { icon:'💼', label:{fr:'Parcours professionnel',en:'Career path'}, sub:{fr:'4 expériences',en:'4 positions'}, build:buildCareer },
-  cv:       { icon:'📄', label:{fr:'Vue synthétique',en:'Quick summary'}, sub:{fr:'Compétences & objectif',en:'Skills & goal'}, build:buildCV },
-  easter:   { icon:'✦',  label:{fr:'Easter egg',en:'Easter egg'}, sub:{fr:'Signal faible',en:'Weak signal'}, build:buildEaster },
-  built:    { icon:'⚙️', label:{fr:'Comment ce site a été fait',en:'How this site was built'}, sub:{fr:'Une soirée + une matinée',en:'One evening + one morning'}, build:buildBuilt },
+  projects:     { icon:'🚀', label:{fr:'Side projects',en:'Side projects'}, sub:{fr:'5 projets',en:'5 projects'}, build:buildProjects },
+  career:       { icon:'💼', label:{fr:'Parcours professionnel',en:'Career path'}, sub:{fr:'4 expériences',en:'4 positions'}, build:buildCareer },
+  cv:           { icon:'📄', label:{fr:'Vue synthétique',en:'Quick summary'}, sub:{fr:'Compétences & objectif',en:'Skills & goal'}, build:buildCV },
+  easter:       { icon:'✦',  label:{fr:'Easter egg',en:'Easter egg'}, sub:{fr:'Signal faible',en:'Weak signal'}, build:buildEaster },
+  built:        { icon:'⚙️', label:{fr:'Comment ce site a été fait',en:'How this site was built'}, sub:{fr:'Une soirée + une matinée',en:'One evening + one morning'}, build:buildBuilt },
+  prospection:  { icon:'📊', label:{fr:'Prospection B2B',en:'B2B Prospecting'}, sub:{fr:'4 191 contacts · 43.5% ouverture',en:'4,191 contacts · 43.5% open rate'}, build:buildProspection },
+  pipeline:     { icon:'⚡', label:{fr:'Pipeline de devis',en:'Quote pipeline'}, sub:{fr:'10 min → 10 sec × 20/jour',en:'10 min → 10 sec × 20/day'}, build:buildPipeline },
+  carnetto:     { icon:'🚗', label:{fr:'Carnetto',en:'Carnetto'}, sub:{fr:'~100 licences · Badge Platine Lovable',en:'~100 licenses · Lovable Platinum'}, build:buildCarnettoPanel },
+  ai:           { icon:'🧠', label:{fr:'Mon point de vue IA',en:'My take on AI'}, sub:{fr:'Ce que j\'observe vraiment',en:'What I actually observe'}, build:buildAI },
 };
 
 function buildBuilt() {
@@ -851,6 +864,90 @@ function buildBuilt() {
       </div>
     </div>`;
   }
+}
+
+function buildPanelBlock(title, body) {
+  return `<div style="padding:10px 12px;background:var(--subtle);border-radius:8px;border-left:2px solid var(--border);margin-bottom:8px;">
+    <span style="font-weight:500;color:var(--text);display:block;margin-bottom:4px;font-size:12px;">${title}</span>
+    <span style="font-size:12px;color:var(--muted);line-height:1.65;">${body}</span>
+  </div>`;
+}
+
+function buildProspection() {
+  if (lang === 'fr') return `<div style="display:flex;flex-direction:column;gap:4px;">
+    <div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:10px;">Prospection B2B — chiffres réels 2025</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px;">
+      <div style="background:var(--subtle);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center;">
+        <div style="font-size:20px;font-weight:600;color:var(--text);">4 191</div>
+        <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;">Contacts touchés</div>
+      </div>
+      <div style="background:var(--subtle);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center;">
+        <div style="font-size:20px;font-weight:600;color:var(--text);">43.5%</div>
+        <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;">Taux d'ouverture</div>
+      </div>
+      <div style="background:var(--subtle);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center;">
+        <div style="font-size:20px;font-weight:600;color:var(--text);">3.2%</div>
+        <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;">Taux de réponse</div>
+      </div>
+      <div style="background:var(--subtle);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center;">
+        <div style="font-size:20px;font-weight:600;color:var(--text);">88.7%</div>
+        <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;">Délivrabilité</div>
+      </div>
+    </div>
+    ${buildPanelBlock('La méthode', 'Segmentation par clusters sectoriels (aéronautique/défense, agroalimentaire, industrie lourde). Icebreakers personnalisés et triggers contextuels par secteur. L\'IA rend le qualitatif scalable sur des volumes impossibles à traiter manuellement.')}
+    ${buildPanelBlock('Ce que l\'IA change concrètement', '13 381 emails envoyés sur 2025. Sans l\'IA, personnaliser à ce niveau sur ce volume prendrait un temps prohibitif. Le 43.5% d\'ouverture — presque le double de la moyenne B2B — prouve que le ciblage et la personnalisation fonctionnent.')}
+  </div>`;
+  return `<div>Prospection data</div>`;
+}
+
+function buildPipeline() {
+  if (lang === 'fr') return `<div style="display:flex;flex-direction:column;gap:8px;">
+    <div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:6px;">Pipeline de traitement de devis automatisé</div>
+    <div style="display:flex;align-items:center;gap:8px;background:var(--subtle);border-radius:8px;padding:12px;margin-bottom:4px;">
+      <div style="text-align:center;flex:1;">
+        <div style="font-size:22px;font-weight:600;color:var(--text);">10 min</div>
+        <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;">Avant</div>
+      </div>
+      <div style="font-size:18px;color:var(--muted);">→</div>
+      <div style="text-align:center;flex:1;">
+        <div style="font-size:22px;font-weight:600;color:var(--text);">10 sec</div>
+        <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;">Après</div>
+      </div>
+      <div style="font-size:18px;color:var(--muted);">×</div>
+      <div style="text-align:center;flex:1;">
+        <div style="font-size:22px;font-weight:600;color:var(--text);">~20</div>
+        <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;">Devis/jour</div>
+      </div>
+    </div>
+    ${buildPanelBlock('Le flux Make + GPT', 'Lecture du mail entrant → extraction de la référence produit → sélection du prix dans le catalogue → réponse au client (automatique ou avec validation ADV) → intégration Pipedrive → relance automatique.')}
+    ${buildPanelBlock('Ce que ça change vraiment', 'Le volume traité reste le même — ce qui change, c\'est 200 minutes d\'ADV libérées chaque jour pour des tâches à plus haute valeur ajoutée. L\'intelligence humaine se réalloue là où elle compte.')}
+    ${buildPanelBlock('La limite honnête', 'La lecture des PDF via l\'API GPT reste imparfaite. Certains formats résistent encore — c\'est le principal point d\'amélioration en cours.')}
+  </div>`;
+  return `<div>Pipeline data</div>`;
+}
+
+function buildCarnettoPanel() {
+  if (lang === 'fr') return `<div style="display:flex;flex-direction:column;gap:8px;">
+    <div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:6px;">Carnetto — SaaS de suivi d'entretien véhicule</div>
+    ${buildPanelBlock('Le concept', 'Application gamifiée de suivi d\'entretien et de consommation pour véhicules électriques. Freemium 14 jours, puis 3.99€/mois — le prix d\'un café pour ne plus jamais rater un entretien.')}
+    ${buildPanelBlock('L\'acquisition', '100 licences vendues via des groupes Meta d\'utilisateurs de voitures électriques. Zéro budget publicitaire au départ — acquisition organique dans des communautés ciblées.')}
+    ${buildPanelBlock('La version actuelle', 'Rebuilt presque entièrement avec Lovable (IA no-code). Evan est badge Platine sur Lovable — signe d\'un usage intensif et maîtrisé de l\'outil.')}
+    ${buildPanelBlock('Le frein', 'Le scaling payant est trop coûteux rapporté au LTV à ce pricing. Le défi actuel : trouver un canal d\'acquisition scalable sans exploser le CAC.')}
+  </div>`;
+  return `<div>Carnetto data</div>`;
+}
+
+function buildAI() {
+  if (lang === 'fr') return `<div style="display:flex;flex-direction:column;gap:8px;">
+    <div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:6px;">Mon point de vue sur l'IA — ce que j'observe vraiment</div>
+    ${buildPanelBlock('La grande illusion', 'L\'IA ne fait pas à ta place. Tu es toujours obligé d\'itérer. Ceux qui pensent qu\'il suffit de poser une question pour avoir un livrable utilisable ratent l\'essentiel — la valeur est dans le cadrage, pas dans la génération.')}
+    ${buildPanelBlock('Les vrais gains', 'Productivité massive et livrables de meilleure qualité. Moins de temps pour faire beaucoup plus de choses. Presque rien ne peut te coincer quand tu sais utiliser les bons outils. J\'ai rarement été aussi productif.')}
+    ${buildPanelBlock('La philosophie', 'L\'IA pour augmenter la valeur de son travail — être un humain augmenté. Pas un remplacement, un accélérateur. L\'IA ne remplace pas le jugement : elle libère du temps pour l\'exercer.')}
+    <div style="padding:10px 12px;background:var(--text);border-radius:8px;margin-top:4px;">
+      <span style="font-size:12px;color:rgba(255,255,255,0.9);font-style:italic;line-height:1.65;">"Même sans être un profil technique, l'IA te permet de faire ce que tu veux — tout ce que tu as à faire, c'est être méthodique, itérer, essayer et ne jamais rien lâcher."</span>
+    </div>
+  </div>`;
+  return `<div>AI view data</div>`;
 }
 
 /* VISITED NAV */
