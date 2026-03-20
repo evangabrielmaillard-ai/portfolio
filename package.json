@@ -1,0 +1,23 @@
+{
+  "name": "primary",
+  "version": "1.0.0",
+  "description": "> Un portfolio qui répond à la place d'un CV.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/evangabrielmaillard-ai/portfolio-as-a-conversation.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/evangabrielmaillard-ai/portfolio-as-a-conversation/issues"
+  },
+  "homepage": "https://github.com/evangabrielmaillard-ai/portfolio-as-a-conversation#readme",
+  "dependencies": {
+    "@vercel/analytics": "^2.0.1"
+  }
+}
