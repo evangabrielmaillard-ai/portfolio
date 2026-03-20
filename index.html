@@ -232,6 +232,18 @@ header.scrolled .visitor-count { display: flex; }
 .chips-more-label { font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 6px; text-align: center; }
 .chips-more-row { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
 
+/* FOOTER */
+.site-footer { text-align: center; padding: 1.5rem 1.5rem 7rem; flex-shrink: 0; }
+.footer-github { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted); text-decoration: none; transition: color 0.12s; letter-spacing: 0.01em; }
+.footer-github:hover { color: var(--text); }
+.footer-github svg { flex-shrink: 0; opacity: 0.6; }
+.footer-github:hover svg { opacity: 1; }
+
+/* FOLLOWUP CHIPS */
+.followup-chips { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+.followup-chip { background: none; border: 1px solid var(--border); border-radius: 16px; padding: 4px 11px; font-size: 11px; font-family: var(--font-sans); color: var(--muted); cursor: pointer; transition: all 0.12s; text-align: left; }
+.followup-chip:hover { border-color: var(--text); color: var(--text); background: var(--subtle); }
+
 /* PERSISTENT NAV */
 .visited-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 720px; padding: 0 1.5rem 0.5rem; display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; pointer-events: none; z-index: 20; }
 .visited-nav.has-items { pointer-events: all; }
@@ -309,7 +321,7 @@ header.scrolled .visitor-count { display: flex; }
     </div>
     <a class="li-btn" href="https://www.linkedin.com/in/evan-gabriel-maillard/" target="_blank">
       <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-      LinkedIn
+      <span>LinkedIn</span>
     </a>
   </div>
 </header>
@@ -322,6 +334,12 @@ header.scrolled .visitor-count { display: flex; }
     <p class="landing-tagline" id="tagline"><span class="tagline-cursor"></span></p>
   </div>
   <div class="messages" id="messages"></div>
+  <footer class="site-footer">
+    <a href="https://github.com/evangabrielmaillard-ai/portfolio" target="_blank" class="footer-github">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+      <span id="footerLabel">Projet disponible en open source sur mon GitHub</span>
+    </a>
+  </footer>
 </div>
 
 <div class="input-zone centered" id="inputZone">
@@ -500,16 +518,16 @@ Compétences : Make, Claude/GPT API, Python, Pipedrive, WordPress/WooCommerce/Pr
 Recherche : Directeur Digital / Responsable IA & Innovation, ETI ou PME ambitieuse.`;
 
 const TAGLINES = [
-  "Ce qui avant prenait des semaines se fait maintenant en une journée.",
-  "Je ne code pas — je transforme des contraintes métier en solutions outillées.",
-  "20 devis traités automatiquement chaque jour. Zéro intervention humaine.",
-  "De la détection d'une tendance US à la vente en France en quelques jours.",
-  "L'IA ne remplace pas le jugement — elle libère du temps pour l'exercer.",
-  "Builder depuis 10 ans. Accéléré par l'IA depuis 3.",
-  "Chaque automatisation est une décision stratégique, pas un exercice technique.",
-  "100 licences Carnetto vendues. Sans équipe. Sans financement externe.",
-  "La vraie compétence : savoir ce qui mérite d'être automatisé.",
-  "Je lis les signaux faibles. J'ai commercialisé le handspinner en France avant tout le monde.",
+  "Le vrai problème n'est rarement celui qu'on croit.",
+  "J'ai construit des systèmes qui tournent. Pas des slides qui expliquent pourquoi.",
+  "SEO, CRM, automation : trois leviers. Un seul système.",
+  "20 devis par jour traités automatiquement. 200 minutes d'équipe libérées.",
+  "4 191 contacts. 43.5% d'ouverture. Sans agence, sans budget ads.",
+  "L'IA ne fait pas à ta place — elle libère du temps pour exercer ton jugement.",
+  "Builder depuis 10 ans. Ce qui a changé : ce qui prenait 3 semaines prend 3 heures.",
+  "Je cherche le levier avec le plus d'impact, pas le plus visible.",
+  "Aucun outil ne compense un problème mal posé.",
+  "Je lis les signaux faibles. J'agis avant que ça devienne une tendance.",
 ];
 
 function toggleMoreChips() {
@@ -519,6 +537,42 @@ function toggleMoreChips() {
   btn.textContent = isOpen ? '↑ Réduire' : '+ Explorer →';
 }
 
+
+const FOLLOWUP_POOLS = {
+  fr: [
+    ["Donne-moi un exemple chiffré", "Quelle est la limite de cette approche ?", "Tu ferais ça différemment aujourd'hui ?"],
+    ["Comment tu as mesuré l'impact ?", "Combien de temps ça a pris à mettre en place ?", "Qu'est-ce qui a failli ne pas marcher ?"],
+    ["C'est applicable dans ma boîte ?", "Quel outil tu utiliserais aujourd'hui ?", "Montre-moi le système complet"],
+    ["Quelle est la première étape concrète ?", "Où est-ce que la plupart des gens se plantent ?", "Tu peux détailler ?"],
+    ["C'est quoi le vrai levier ici ?", "Qu'est-ce qui change si on n'a pas de budget ?", "Comment tu prioriserais ?"],
+  ],
+  en: [
+    ["Give me a concrete example", "What's the limit of this approach?", "Would you do it differently today?"],
+    ["How did you measure the impact?", "How long did it take to set up?", "What almost didn't work?"],
+    ["Is this applicable to my company?", "What tool would you use today?", "Show me the full system"],
+    ["What's the first concrete step?", "Where do most people go wrong?", "Can you elaborate?"],
+    ["What's the real lever here?", "What changes with no budget?", "How would you prioritize?"],
+  ]
+};
+
+function addFollowupChips(parentEl) {
+  const pool = FOLLOWUP_POOLS[lang] || FOLLOWUP_POOLS.fr;
+  const set = pool[Math.floor(Math.random() * pool.length)];
+  const wrap = document.createElement('div');
+  wrap.className = 'followup-chips';
+  set.forEach(q => {
+    const btn = document.createElement('button');
+    btn.className = 'followup-chip';
+    btn.textContent = q;
+    btn.onclick = () => {
+      wrap.remove();
+      document.getElementById('inp').value = q;
+      send();
+    };
+    wrap.appendChild(btn);
+  });
+  parentEl.appendChild(wrap);
+}
 
 function parseMarkdown(text) {
   return text
@@ -572,6 +626,8 @@ function setLang(l) {
   document.getElementById('eyebrow').textContent = l==='fr' ? 'Portfolio interactif' : 'Interactive portfolio';
   document.getElementById('inp').placeholder = l==='fr' ? 'Posez votre question…' : 'Ask your question…';
   document.getElementById('backLabel').textContent = l==='fr' ? 'Accueil' : 'Home';
+  const fl = document.getElementById('footerLabel');
+  if (fl) fl.textContent = l==='fr' ? 'Projet disponible en open source sur mon GitHub' : 'Project available as open source on my GitHub';
 }
 
 /* ── BACK ── */
@@ -752,6 +808,8 @@ function addBotMsg(text, panelType) {
   el.innerHTML = `<div class="msg-avatar">EM</div>`;
   el.appendChild(content);
   document.getElementById('messages').appendChild(el);
+
+  if (text && text.length > 20) addFollowupChips(content);
 
   msgCount++;
   if (msgCount > 0 && msgCount % 4 === 0 && !document.querySelector('.contact-cta')) {
