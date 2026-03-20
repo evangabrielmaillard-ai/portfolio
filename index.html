@@ -457,13 +457,57 @@ header.scrolled .back-btn { display: flex; }
 }
 .chip:hover { border-color: var(--text); color: var(--text); background: var(--subtle); }
 
-@media (max-width: 500px) {
-  .landing-name { font-size: 2.6rem; }
-  .tl-item { grid-template-columns: 70px 1fr; }
+/* ── PERSISTENT NAV ── */
+.visited-nav {
+  position: fixed;
+  bottom: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 720px;
+  padding: 0 1.5rem 0.5rem;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 40;
+  transition: opacity 0.3s;
+}
+
+.visited-nav.has-items {
+  pointer-events: all;
+}
+
+.nav-pill {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 5px 12px;
+  font-size: 11px;
+  font-family: var(--font-sans);
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s;
+  animation: pillIn 0.2s ease;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.nav-pill:hover {
+  border-color: var(--text);
+  color: var(--text);
+  background: var(--subtle);
+}
+
+@keyframes pillIn {
+  from { opacity: 0; transform: translateY(8px) scale(0.95); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 </style>
 </head>
 <body>
+
+<div class="visited-nav" id="visitedNav"></div>
 
 <header id="hdr">
   <span class="header-name">Evan Maillard</span>
@@ -595,6 +639,7 @@ PANNEAUX — réponds UNIQUEMENT avec ce JSON exact, sans texte autour :
 - Question sur parcours pro / carrière / expériences → {"panel":"career","intro":"10 ans de parcours, une montée en technicité progressive — voici le détail."}
 - Question sur vue synthétique / résumé / compétences / CV → {"panel":"cv","intro":"Vue synthétique du profil d'Evan — compétences et objectif."}
 - Message contenant 'surprise' ou 'easter egg' → {"panel":"easter","intro":"Vous avez trouvé l'easter egg."}
+- Question sur comment ce site a été créé / construit / fait / la stack technique du portfolio → {"panel":"built","intro":"Ce site a été cadré en une soirée et sorti en production le lendemain matin."}
 
 PROFIL COMPLET :
 Momentum Group : pipeline devis automatisé (Make + GPT, ~20/jour, lecture mail → extraction réf → prix → réponse → Pipedrive → relance), pipeline SEO Make + Claude + WordPress actif, scripts Python (copie photos/fiches via Excel, annuaire liens revendeurs, génération photos produit IA), CRM Pipedrive, prospection Lemlist multi-secteur (aéronautique, agroalimentaire, industrie lourde), refontes WordPress + audits Semrush.
@@ -739,7 +784,86 @@ const PANELS = {
   career:   { icon:'💼', label:{fr:'Parcours professionnel',en:'Career path'}, sub:{fr:'4 expériences',en:'4 positions'}, build:buildCareer },
   cv:       { icon:'📄', label:{fr:'Vue synthétique',en:'Quick summary'}, sub:{fr:'Compétences & objectif',en:'Skills & goal'}, build:buildCV },
   easter:   { icon:'✦',  label:{fr:'Easter egg',en:'Easter egg'}, sub:{fr:'Signal faible',en:'Weak signal'}, build:buildEaster },
+  built:    { icon:'⚙️', label:{fr:'Comment ce site a été fait',en:'How this site was built'}, sub:{fr:'Une soirée + une matinée',en:'One evening + one morning'}, build:buildBuilt },
 };
+
+function buildBuilt() {
+  if (lang === 'fr') {
+    return `
+    <div style="display:flex;flex-direction:column;gap:14px;">
+      <div style="font-size:13px;font-weight:500;color:var(--text);">Ce site a été construit en une soirée et une matinée.</div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="font-size:12px;color:var(--muted);padding:10px 12px;background:var(--subtle);border-radius:8px;border-left:2px solid var(--border);">
+          <span style="font-weight:500;color:var(--text);display:block;margin-bottom:4px;">Le point de départ</span>
+          Se prouver que c'est possible. Documenter ce que je sais faire. Et parce que j'aime la tech — pas pour la montrer, pour l'utiliser.
+        </div>
+        <div style="font-size:12px;color:var(--muted);padding:10px 12px;background:var(--subtle);border-radius:8px;border-left:2px solid var(--border);">
+          <span style="font-weight:500;color:var(--text);display:block;margin-bottom:4px;">La méthode</span>
+          Une conversation avec Claude. Pas de brief figé. On a cadré ensemble l'architecture, le design, le contenu, le déploiement. C'est une co-création — Evan dirigeait, l'IA exécutait, on itérait. Chaque blocage était une décision à prendre.
+        </div>
+        <div style="font-size:12px;color:var(--muted);padding:10px 12px;background:var(--subtle);border-radius:8px;border-left:2px solid var(--border);">
+          <span style="font-weight:500;color:var(--text);display:block;margin-bottom:4px;">La stack</span>
+          HTML / CSS / JS — un seul fichier. API Anthropic pour le chatbot, proxifiée via une fonction Vercel pour ne jamais exposer la clé. GitHub pour versionner, Vercel pour déployer. Zéro framework, zéro ligne de code écrite manuellement.
+        </div>
+        <div style="font-size:12px;color:var(--muted);padding:10px 12px;background:var(--subtle);border-radius:8px;border-left:2px solid var(--border);">
+          <span style="font-weight:500;color:var(--text);display:block;margin-bottom:4px;">Le temps</span>
+          Projet cadré en une soirée. Sorti en production le lendemain matin. Une nuit de sommeil entre les deux.
+        </div>
+        <div style="font-size:12px;color:var(--muted);padding:10px 12px;background:var(--text);border-radius:8px;">
+          <span style="font-weight:500;color:#fff;display:block;margin-bottom:4px;">Ce que ça prouve</span>
+          <span style="color:rgba(255,255,255,0.75);">Même sans profil technique, l'IA te permet de construire ce que tu veux — à condition d'être méthodique, d'itérer sans s'énerver, et de ne jamais rien lâcher. La compétence, c'est pas le code. C'est savoir quoi demander, comment le cadrer, et quand pousser.</span>
+        </div>
+      </div>
+    </div>`;
+  } else {
+    return `
+    <div style="display:flex;flex-direction:column;gap:14px;">
+      <div style="font-size:13px;font-weight:500;color:var(--text);">This site was built in one evening and one morning.</div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="font-size:12px;color:var(--muted);padding:10px 12px;background:var(--subtle);border-radius:8px;border-left:2px solid var(--border);">
+          <span style="font-weight:500;color:var(--text);display:block;margin-bottom:4px;">The starting point</span>
+          Proving to myself it was possible. Documenting what I know how to do. And because I love tech — not to show it off, but to use it.
+        </div>
+        <div style="font-size:12px;color:var(--muted);padding:10px 12px;background:var(--subtle);border-radius:8px;border-left:2px solid var(--border);">
+          <span style="font-weight:500;color:var(--text);display:block;margin-bottom:4px;">The method</span>
+          A conversation with Claude. No fixed brief. We framed the architecture, design, content, and deployment together. A co-creation — Evan directed, the AI executed, we iterated. Every blocker was a decision to make.
+        </div>
+        <div style="font-size:12px;color:var(--muted);padding:10px 12px;background:var(--subtle);border-radius:8px;border-left:2px solid var(--border);">
+          <span style="font-weight:500;color:var(--text);display:block;margin-bottom:4px;">The stack</span>
+          HTML / CSS / JS — one single file. Anthropic API for the chatbot, proxied through a Vercel function to never expose the key. GitHub to version, Vercel to deploy. Zero framework, zero line of code written manually.
+        </div>
+        <div style="font-size:12px;color:var(--muted);padding:10px 12px;background:var(--subtle);border-radius:8px;border-left:2px solid var(--border);">
+          <span style="font-weight:500;color:var(--text);display:block;margin-bottom:4px;">The time</span>
+          Project framed in one evening. Live in production the next morning. One night's sleep in between.
+        </div>
+        <div style="font-size:12px;color:var(--muted);padding:10px 12px;background:var(--text);border-radius:8px;">
+          <span style="font-weight:500;color:#fff;display:block;margin-bottom:4px;">What it proves</span>
+          <span style="color:rgba(255,255,255,0.75);">Even without a technical background, AI lets you build whatever you want — as long as you're methodical, iterate without losing your cool, and never give up. The skill isn't the code. It's knowing what to ask, how to frame it, and when to push.</span>
+        </div>
+      </div>
+    </div>`;
+  }
+}
+
+/* VISITED NAV */
+const visitedPanels = new Set();
+
+function registerVisit(panelType) {
+  if (visitedPanels.has(panelType)) return;
+  visitedPanels.add(panelType);
+  const nav = document.getElementById('visitedNav');
+  const m = PANELS[panelType];
+  if (!m) return;
+  const pill = document.createElement('button');
+  pill.className = 'nav-pill';
+  pill.textContent = lang === 'fr' ? m.label.fr : m.label.en;
+  pill.onclick = () => {
+    activateChat();
+    addBotMsg('', panelType);
+  };
+  nav.appendChild(pill);
+  nav.classList.add('has-items');
+}
 
 function makePanel(type) {
   const m = PANELS[type];
@@ -792,7 +916,10 @@ function addBotMsg(text, panelType) {
     b.innerHTML = text;
     content.appendChild(b);
   }
-  if (panelType) content.appendChild(makePanel(panelType));
+  if (panelType) {
+    content.appendChild(makePanel(panelType));
+    registerVisit(panelType);
+  }
   el.innerHTML = `<div class="msg-avatar">EM</div>`;
   el.appendChild(content);
   document.getElementById('messages').appendChild(el);
