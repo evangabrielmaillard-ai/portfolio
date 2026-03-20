@@ -111,6 +111,15 @@ header.scrolled .visitor-count { display: flex; }
 .msg-bubble { display: inline-block; padding: 10px 14px; border-radius: 12px; font-size: 14px; line-height: 1.65; max-width: 100%; white-space: pre-wrap; }
 .msg-row.bot .msg-bubble { background: var(--surface); border: 1px solid var(--border); border-bottom-left-radius: 4px; }
 .msg-row.user .msg-bubble { background: var(--text); color: var(--bg); border-bottom-right-radius: 4px; float: right; clear: both; }
+.msg-bubble p { margin: 0; }
+.msg-bubble p + p { margin-top: 8px; }
+.msg-bubble strong { font-weight: 500; color: var(--text); }
+.msg-bubble .msg-bullet { font-weight: 500; color: var(--text); }
+.msg-bubble .msg-bullet-text { color: var(--muted); }
+.msg-row.bot .msg-bubble .msg-bullet { color: var(--text); }
+.msg-row.user .msg-bubble strong,
+.msg-row.user .msg-bubble .msg-bullet,
+.msg-row.user .msg-bubble .msg-bullet-text { color: inherit; }
 
 /* PANELS */
 .panel { margin-top: 10px; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: var(--surface); }
@@ -377,10 +386,21 @@ Exemple pour "Comment générer plus de leads qualifiés ?" :
 
 Evan a construit exactement ça pour Manuvit : 4 191 contacts touchés, 43.5% d'ouverture — presque le double de la moyenne B2B. Vous voulez voir comment le système est structuré ?"
 
-RÈGLES GÉNÉRALES :
-- Réponds UNIQUEMENT aux questions liées au profil ou à l'expertise d'Evan.
-- 3ème personne pour parler d'Evan. Adapte la langue (FR ou EN).
-- Jamais de réponse générique — toujours ancré dans une réalisation réelle d'Evan.
+FORMAT OBLIGATOIRE — TOUJOURS respecter cette structure, sans exception :
+Une phrase d'accroche (pas de markdown, pas de **gras**)
+
+→ point clé 1 (court, factuel)
+→ point clé 2
+→ point clé 3 (optionnel)
+
+Une question de relance courte
+
+RÈGLES DE FORMATAGE STRICTES :
+- Ne jamais utiliser **texte** ni *texte* ni ✓ ni des titres avec ":"
+- Les → sont les seuls éléments de liste autorisés
+- Maximum 4 lignes de contenu total hors accroche et relance
+- Pas de sections "Où tu aurais besoin de moi", pas de listes à puces avec ✓
+- Réponse courte et dense — pas de structure de rapport
 
 PANNEAUX — JSON exact sans texte autour :
 - Side projects / Carnetto / Feedcasse → {"panel":"projects","intro":"Evan a lancé plusieurs projets en dehors de tout cadre pro — voici lesquels."}
@@ -427,6 +447,15 @@ function toggleMoreChips() {
   btn.textContent = isOpen ? '↑ Réduire' : '+ Explorer →';
 }
 
+
+function parseMarkdown(text) {
+  return text
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+    .replace(/^(→|✓|•) (.+)$/gm, '<span class="msg-bullet">$1</span><span class="msg-bullet-text"> $2</span>')
+    .replace(/\n\n/g, '</p><p style="margin-top:8px">')
+    .replace(/\n/g, '<br>');
+}
 
 let lang = 'fr', history = [], busy = false, chatStarted = false;
 let recruiterMode = false, recruiterRole = '';
@@ -645,7 +674,7 @@ function addBotMsg(text, panelType) {
   if (text) {
     const b = document.createElement('div');
     b.className = 'msg-bubble';
-    b.innerHTML = text;
+    b.innerHTML = '<p>' + parseMarkdown(text) + '</p>';
     content.appendChild(b);
   }
   if (panelType) { content.appendChild(makePanel(panelType)); registerVisit(panelType); }
