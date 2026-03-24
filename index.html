@@ -261,7 +261,8 @@ header.scrolled .visitor-count { display: flex; }
 .chips-more-row { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
 
 /* FOOTER */
-.site-footer { text-align: center; padding: 1.5rem 1.5rem 7rem; flex-shrink: 0; }
+.site-footer { text-align: center; padding: 1.5rem 1.5rem 7rem; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.footer-updated { font-size: 10px; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; opacity: 0.6; }
 .footer-github { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted); text-decoration: none; transition: color 0.12s; letter-spacing: 0.01em; }
 .footer-github:hover { color: var(--text); }
 .footer-github svg { flex-shrink: 0; opacity: 0.6; }
@@ -364,7 +365,8 @@ header.scrolled .visitor-count { display: flex; }
   </div>
   <div class="messages" id="messages"></div>
   <footer class="site-footer">
-    <a href="https://github.com/evangabrielmaillard-ai/portfolio" target="_blank" class="footer-github">
+    <div class="footer-updated" id="footerUpdated">Dernière mise à jour : 24 mars 2026</div>
+    <a href="https://github.com/evangabrielmaillard-ai/portfolio-as-a-conversation" target="_blank" class="footer-github">
       <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
       <span id="footerLabel">Projet disponible en open source sur mon GitHub</span>
     </a>
@@ -416,6 +418,9 @@ header.scrolled .visitor-count { display: flex; }
           <button class="chip" onclick="chipSend(this)" data-fr="Quelles erreurs tu vois souvent en entreprise ?" data-en="What mistakes do you often see?">Erreurs fréquentes</button>
           <button class="chip" onclick="chipSend(this)" data-fr="Comment tu utilises l'IA concrètement ?" data-en="How do you actually use AI?">Usage IA concret</button>
           <button class="chip" onclick="chipSend(this)" data-fr="Prospection B2B" data-en="B2B prospecting">Prospection B2B</button>
+          <button class="chip" onclick="chipSend(this)" data-fr="Ton générateur d'images IA" data-en="Your AI image generator">Générateur d'images IA</button>
+          <button class="chip" onclick="chipSend(this)" data-fr="Tes automatisations Make" data-en="Your Make automations">Automatisations Make</button>
+          <button class="chip" onclick="chipSend(this)" data-fr="Tes scripts Python" data-en="Your Python scripts">Scripts Python</button>
         </div>
       </div>
     </div>
@@ -531,6 +536,9 @@ PANNEAUX — JSON exact sans texte autour :
 - Pipeline de devis / automatisation Make / GPT / automatiser concrètement → {"panel":"pipeline","intro":"10 minutes par devis réduit à 10 secondes — voici comment."}
 - Carnetto en détail / SaaS / Lovable → {"panel":"carnetto","intro":"100 licences vendues, rebuilt avec l'IA — l'histoire de Carnetto."}
 - Point de vue IA / philosophie / humain augmenté / usage concret IA / workflows IA → {"panel":"ai","intro":"Ce que j'observe vraiment — pas le discours ambiant, l'expérience terrain."}
+- Générateur d'images / GPT-Image / photos produit / mise en situation / pipeline image → {"panel":"imagegen","intro":"176 références, 528 images générées, 21 heures économisées par batch — voici comment."}
+- Scripts Python / outils Python / automatisation Python / Tkinter / scripts métier → {"panel":"python","intro":"19 scripts Python en production, construits pour l'équipe sans ligne de code requise."}
+- Automatisations Make / scénarios Make / pipeline Make / Integromat / workflows → {"panel":"make","intro":"5 scénarios actifs, 600+ exécutions mesurées — le système commercial automatisé du Groupe Momentum."}
 
 PROFIL & RÉALISATIONS (pour répondre en mode consultant) :
 Prospection B2B : 4 191 contacts, 13 381 emails, 43.5% ouverture (2× moyenne B2B), 3.2% réponse, clustering sectoriel (aéro/défense, agroalimentaire, industrie lourde), icebreakers IA, triggers contextuels.
@@ -762,6 +770,87 @@ function buildAI() {
   return `<div style="display:flex;flex-direction:column;gap:8px;"><div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:4px;">${lang==='fr'?'Mon point de vue sur l\'IA — ce que j\'observe vraiment':'My take on AI — what I actually observe'}</div>${block(lang==='fr'?'La grande illusion':'The big illusion',lang==='fr'?'L\'IA ne fait pas à ta place. Tu es toujours obligé d\'itérer. La valeur est dans le cadrage, pas dans la génération.':'AI doesn\'t do it for you. You still have to iterate. The value is in the framing, not the generation.')}${block(lang==='fr'?'Les vrais gains':'Real gains',lang==='fr'?'Productivité massive, livrables de meilleure qualité. Moins de temps pour faire beaucoup plus. Presque rien ne peut coincer quand tu sais utiliser les bons outils.':'Massive productivity, better quality outputs. Less time to do much more. Almost nothing can block you when you know the right tools.')}${block(lang==='fr'?'La philosophie':'Philosophy',lang==='fr'?'L\'IA pour augmenter la valeur de son travail — être un humain augmenté. Pas un remplacement, un accélérateur. L\'IA libère du temps pour exercer le jugement.':'AI to increase the value of your work — be an augmented human. Not a replacement, an accelerator.')}<div style="padding:12px 14px;background:var(--text);border-radius:8px;margin-top:4px;"><span style="font-size:12px;color:rgba(255,255,255,0.9);font-style:italic;line-height:1.65;">"${lang==='fr'?'Même sans être un profil technique, l\'IA te permet de faire ce que tu veux — tout ce que tu as à faire, c\'est être méthodique, itérer, essayer et ne jamais rien lâcher.':'Even without a technical background, AI lets you build whatever you want — you just need to be methodical, iterate, try, and never give up.'}"</span></div></div>`;
 }
 
+function buildImageGen() {
+  return `<div style="display:flex;flex-direction:column;gap:8px;">
+    <div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:4px;">${lang==='fr'?'Générateur d\'images produit IA':'AI Product Image Generator'}</div>
+    ${block(lang==='fr'?'Le concept':'Concept', lang==='fr'?'Un outil générique qui transforme n\'importe quelle photo produit sur fond blanc en image de mise en situation contextuelle — sans compétence technique. Interface HTML standalone, accessible en un clic.':'A generic tool that transforms any white-background product photo into a contextual lifestyle image — no technical skills required. Standalone HTML interface, accessible in one click.')}
+    ${block(lang==='fr'?'Comment ça fonctionne':'How it works', lang==='fr'?'Pipeline Python (FastAPI) : lit un fichier Excel de références, envoie chaque photo à gpt-image-1 via l\'API OpenAI /v1/images/edits, génère le fond contextuel en conservant le produit, contrôle la qualité via GPT-4o Vision, exporte un rapport Excel avec scores. Chaque image est unique : décor, éclairage, présence de charge variables.':'Python pipeline (FastAPI): reads a reference Excel file, sends each photo to gpt-image-1 via OpenAI /v1/images/edits, generates contextual background while preserving the product, checks quality via GPT-4o Vision, exports an Excel report with scores. Each image is unique: varying decor, lighting, and load presence.')}
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin:4px 0;">
+      <div style="background:var(--subtle);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center;">
+        <div style="font-size:20px;font-weight:600;color:var(--text);font-family:var(--font-serif);">176</div>
+        <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.04em;margin-top:2px;">${lang==='fr'?'Références':'References'}</div>
+      </div>
+      <div style="background:var(--subtle);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center;">
+        <div style="font-size:20px;font-weight:600;color:var(--text);font-family:var(--font-serif);">528</div>
+        <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.04em;margin-top:2px;">${lang==='fr'?'Images générées':'Images generated'}</div>
+      </div>
+      <div style="background:var(--text);border-radius:8px;padding:10px;text-align:center;">
+        <div style="font-size:20px;font-weight:600;color:var(--bg);font-family:var(--font-serif);">21h</div>
+        <div style="font-size:10px;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:0.04em;margin-top:2px;">${lang==='fr'?'Économisées':'Saved'}</div>
+      </div>
+    </div>
+    ${block(lang==='fr'?'Le calcul':'The math', lang==='fr'?'Méthode manuelle : 3 min × 3 requêtes × 176 refs = 26h. Avec l\'outil : 4-5h sans intervention. Gain net : 21h par batch. Taux de déchet ~1 image sur 6 — identique en manuel, mais sans l\'overhead de saisie.':'Manual method: 3 min × 3 requests × 176 refs = 26h. With the tool: 4-5h unattended. Net gain: 21h per batch. Rejection rate ~1 in 6 images — same as manual, but without input overhead.')}
+    ${block(lang==='fr'?'Coût estimé':'Estimated cost', lang==='fr'?'~200$ pour 528 images, contrôle qualité inclus. Réutilisable à l\'identique pour toute mise à jour catalogue ou nouvelle gamme.':'~$200 for 528 images, quality control included. Fully reusable for any catalogue update or new product range.')}
+    <div style="padding:10px 12px;background:var(--subtle);border-radius:8px;border-left:2px solid var(--border);font-size:12px;color:var(--muted);line-height:1.65;">
+      <span style="font-weight:500;color:var(--text);">${lang==='fr'?'Ce que ça démontre :':'What this demonstrates:'}</span> ${lang==='fr'?'Identifier un problème métier coûteux, concevoir un outil réutilisable sans être développeur, le mener en production avec interface utilisable par des non-techniciens.':'Identifying a costly business problem, building a reusable tool without being a developer, shipping it to production with an interface usable by non-technical staff.'}
+    </div>
+  </div>`;
+}
+
+function buildPython() {
+  return `<div style="display:flex;flex-direction:column;gap:8px;">
+    <div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:4px;">${lang==='fr'?'Bibliothèque de scripts Python métier':'Python Business Tools Library'}</div>
+    ${block(lang==='fr'?'Le contexte':'Context', lang==='fr'?'19 scripts Python en production, construits pour des utilisateurs non-techniciens. Architecture commune : interface Tkinter (GUI Windows native), traitement asynchrone, export Excel systématique. Aucune installation requise côté utilisateur final.':'19 Python scripts in production, built for non-technical users. Common architecture: Tkinter GUI (native Windows), async processing, systematic Excel export. No installation required for end users.')}
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin:4px 0;">
+      <div style="background:var(--subtle);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center;">
+        <div style="font-size:20px;font-weight:600;color:var(--text);font-family:var(--font-serif);">19</div>
+        <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.04em;margin-top:2px;">${lang==='fr'?'Scripts actifs':'Active scripts'}</div>
+      </div>
+      <div style="background:var(--subtle);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center;">
+        <div style="font-size:20px;font-weight:600;color:var(--text);font-family:var(--font-serif);">4</div>
+        <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.04em;margin-top:2px;">${lang==='fr'?'Domaines couverts':'Domains covered'}</div>
+      </div>
+      <div style="background:var(--text);border-radius:8px;padding:10px;text-align:center;">
+        <div style="font-size:20px;font-weight:600;color:var(--bg);font-family:var(--font-serif);">0</div>
+        <div style="font-size:10px;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:0.04em;margin-top:2px;">${lang==='fr'?'Install. requise':'Install. required'}</div>
+      </div>
+    </div>
+    ${block(lang==='fr'?'Médias produits':'Product media', lang==='fr'?'Export inventaire fichiers → Excel, copie visuels/PDFs par référence CEGID, renommage massif piloté par Excel avec convention SEO, conversion WebP. Tous utilisables par l\'équipe sans ligne de code.':'File inventory export → Excel, copy visuals/PDFs by CEGID reference, bulk rename driven by Excel with SEO naming convention, WebP conversion. All usable by the team without any code.')}
+    ${block(lang==='fr'?'Données & CRM':'Data & CRM', lang==='fr'?'Fusion Excel multi-sources, consolidation SIRET/BDD CEGID, regroupage de comptes, tri clients par inactivité, décomposeur d\'onglets. Transforment des traitements de 3h en 3 clics.':'Multi-source Excel merging, SIRET/CEGID database consolidation, account grouping, inactivity-based client sorting, tab splitter. Turn 3-hour tasks into 3 clicks.')}
+    ${block(lang==='fr'?'SEO / Web':'SEO / Web', lang==='fr'?'Mapper références produit ↔ URLs sitemap (utile pré-migration), enrichissement SEO backend FIMM avec interface HTML standalone. Deux outils utilisés directement en production sur fimm.fr.':'Map product references ↔ sitemap URLs (useful pre-migration), FIMM backend SEO enrichment with standalone HTML interface. Both tools used directly in production on fimm.fr.')}
+  </div>`;
+}
+
+function buildMake() {
+  return `<div style="display:flex;flex-direction:column;gap:8px;">
+    <div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:4px;">${lang==='fr'?'Automatisations Make — Groupe Momentum':'Make Automations — Momentum Group'}</div>
+    ${block(lang==='fr'?'Le système':'The system', lang==='fr'?'5 scénarios Make actifs interconnectant Pipedrive, GPT-4, Microsoft Teams, Google Sheets, SMTP Gandi et BetterContact. Chaque scénario documente un flux commercial réel, avec exécutions mesurées en production.':'5 active Make scenarios interconnecting Pipedrive, GPT-4, Microsoft Teams, Google Sheets, Gandi SMTP and BetterContact. Each scenario documents a real commercial flow, with production-measured executions.')}
+    <div style="display:flex;flex-direction:column;gap:5px;margin:4px 0;">
+      <div style="display:flex;align-items:center;gap:10px;padding:9px 11px;background:var(--subtle);border-radius:8px;">
+        <div style="font-size:11px;font-weight:500;color:var(--text);flex:1;">Pipeline devis (OFFRE A REALISER)</div>
+        <div style="font-size:11px;color:var(--muted);white-space:nowrap;">272 ${lang==='fr'?'exec.':'exec.'}</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;padding:9px 11px;background:var(--subtle);border-radius:8px;">
+        <div style="font-size:11px;font-weight:500;color:var(--text);flex:1;">Validation Teams + SMTP</div>
+        <div style="font-size:11px;color:var(--muted);white-space:nowrap;">300 ${lang==='fr'?'exec.':'exec.'}</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;padding:9px 11px;background:var(--subtle);border-radius:8px;">
+        <div style="font-size:11px;font-weight:500;color:var(--text);flex:1;">Enrichissement Pipedrive (GPT-4 + BetterContact)</div>
+        <div style="font-size:11px;color:var(--muted);white-space:nowrap;">99 ${lang==='fr'?'exec.':'exec.'}</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;padding:9px 11px;background:var(--subtle);border-radius:8px;">
+        <div style="font-size:11px;font-weight:500;color:var(--text);flex:1;">V2 Offre PDF (GPT-4 file upload)</div>
+        <div style="font-size:11px;color:var(--muted);white-space:nowrap;">${lang==='fr'?'Récent':'Recent'}</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;padding:9px 11px;background:var(--subtle);border-radius:8px;">
+        <div style="font-size:11px;font-weight:500;color:var(--text);flex:1;">Automatisation CDC (Webhook → Brief Bureau d'Études)</div>
+        <div style="font-size:11px;color:var(--muted);white-space:nowrap;">${lang==='fr'?'À la demande':'On demand'}</div>
+      </div>
+    </div>
+    ${block(lang==='fr'?'Ce que ça démontre':'What this demonstrates', lang==='fr'?'Un système commercial partiellement automatisé : de la réception de la demande à la création de l\'affaire Pipedrive, en passant par la validation humaine Teams. Le tout sans code serveur — uniquement Make, des APIs, et des prompts calibrés.':'A partially automated commercial system: from request receipt to Pipedrive deal creation, including human Teams validation. All without server code — just Make, APIs, and calibrated prompts.')}
+  </div>`;
+}
+
 /* ── PANELS REGISTRY ── */
 const PANELS = {
   projects:    { icon:'🚀', label:{fr:'Side projects',en:'Side projects'}, sub:{fr:'5 projets',en:'5 projects'}, build:buildProjects },
@@ -773,6 +862,9 @@ const PANELS = {
   pipeline:    { icon:'⚡', label:{fr:'Pipeline de devis',en:'Quote pipeline'}, sub:{fr:'10 min → 10 sec',en:'10 min → 10 sec'}, build:buildPipeline },
   carnetto:    { icon:'🚗', label:{fr:'Carnetto',en:'Carnetto'}, sub:{fr:'~100 licences · Lovable Platine',en:'~100 licenses · Lovable Platinum'}, build:buildCarnettoPanel },
   ai:          { icon:'🧠', label:{fr:'Mon point de vue IA',en:'My take on AI'}, sub:{fr:'Humain augmenté',en:'Augmented human'}, build:buildAI },
+  imagegen:    { icon:'🖼️', label:{fr:'Générateur d\'images IA',en:'AI Image Generator'}, sub:{fr:'176 refs · 21h économisées',en:'176 refs · 21h saved'}, build:buildImageGen },
+  python:      { icon:'🐍', label:{fr:'Scripts Python métier',en:'Python Business Tools'}, sub:{fr:'19 outils · GUI native',en:'19 tools · native GUI'}, build:buildPython },
+  make:        { icon:'⚙️', label:{fr:'Automatisations Make',en:'Make Automations'}, sub:{fr:'5 scénarios · 600+ exec.',en:'5 scenarios · 600+ exec.'}, build:buildMake },
 };
 
 /* ── VISITED NAV ── */
