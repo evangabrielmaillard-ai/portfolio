@@ -431,7 +431,6 @@ const DATA = {
   skills: ['Make (Integromat)', 'Claude / GPT API', 'Python', 'Pipedrive CRM', 'WordPress / WooCommerce', 'PrestaShop', 'Lemlist', 'Semrush', 'Meta Ads', 'Google Ads', 'LinkedIn Ads', 'Webflow', 'Lovable', 'SEO', 'Automation', 'Prompt engineering'],
 };
 
-// System prompt moved to Vercel environment variable: SYSTEM_PROMPT
 
 const TAGLINES = [
   "Le vrai problème n'est rarement celui qu'on croit.",
@@ -535,8 +534,6 @@ function setLang(l) {
   const fl = document.getElementById('footerLabel');
   if (fl) fl.textContent = l==='fr' ? 'Projet disponible en open source sur mon GitHub' : 'Project available as open source on my GitHub';
   hydrateFooterDate();
-  const fl = document.getElementById('footerLabel');
-  if (fl) fl.textContent = l==='fr' ? 'Projet disponible en open source sur mon GitHub' : 'Project available as open source on my GitHub';
 }
 
 function hydrateFooterDate() {
