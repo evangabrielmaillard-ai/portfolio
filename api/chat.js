@@ -1,85 +1,57 @@
-const WINDOW_MS = 60 * 60 * 1000;
-const MAX_REQUESTS_PER_WINDOW = 30;
-
-const ipStore = new Map();
-
-function getClientIp(req) {
-  const forwardedFor = req.headers["x-forwarded-for"];
-  if (forwardedFor) {
-    return forwardedFor.split(",")[0].trim();
-  }
-  return req.socket?.remoteAddress || "unknown";
-}
-
-function isRateLimited(ip) {
-  const now = Date.now();
-  const entry = ipStore.get(ip);
-
-  if (!entry || now > entry.resetAt) {
-    ipStore.set(ip, { count: 1, resetAt: now + WINDOW_MS });
-    return false;
-  }
-
-  if (entry.count >= MAX_REQUESTS_PER_WINDOW) {
-    return true;
-  }
-
-  entry.count += 1;
-  return false;
-}
-
 export default async function handler(req, res) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed" });
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const ip = getClientIp(req);
+  const { messages } = req.body;
 
-  if (isRateLimited(ip)) {
-    return res.status(429).json({
-      content: [{ text: "Trop de requêtes. Réessaie plus tard." }],
-    });
+  if (!messages || !Array.isArray(messages)) {
+    return res.status(400).json({ error: 'Invalid messages' });
   }
 
   const apiKey = process.env.ANTHROPIC_API_KEY;
-  const system = process.env.SYSTEM_PROMPT;
+  if (!apiKey) {
+    return res.status(200).json({
+      content: [{ text: 'DEBUG: Clé API manquante — variable ANTHROPIC_API_KEY non trouvée.' }]
+    });
+  }
 
-  if (!apiKey || !system) {
-    return res.status(500).json({
-      content: [{ text: "Configuration serveur incomplète." }],
+  const systemPrompt = process.env.SYSTEM_PROMPT || '';
+  if (!systemPrompt) {
+    return res.status(200).json({
+      content: [{ text: 'DEBUG: System prompt manquant — variable SYSTEM_PROMPT non trouvée.' }]
     });
   }
 
   try {
-    const response = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
-        "x-api-key": apiKey,
-        "anthropic-version": "2023-06-01",
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
       },
       body: JSON.stringify({
-        model: "claude-haiku-4-5-20251001",
-        max_tokens: 350,
-        system: system,
-        messages: req.body.messages,
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 400,
+        system: systemPrompt,
+        messages: messages,
       }),
     });
 
     const data = await response.json();
 
     if (!response.ok) {
-      console.error("Anthropic error:", data);
-      return res.status(500).json({
-        content: [{ text: "Erreur IA." }],
+      return res.status(200).json({
+        content: [{ text: 'DEBUG erreur Anthropic ' + response.status + ' : ' + JSON.stringify(data) }]
       });
     }
 
     return res.status(200).json(data);
+
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({
-      content: [{ text: "Erreur serveur." }],
+    return res.status(200).json({
+      content: [{ text: 'DEBUG exception : ' + error.message }]
     });
   }
 }
