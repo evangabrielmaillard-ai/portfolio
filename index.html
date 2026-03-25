@@ -755,6 +755,7 @@ const PANELS = {
   imagegen:    { icon:'🖼️', label:{fr:'Générateur d\'images IA',en:'AI Image Generator'}, sub:{fr:'176 refs · 21h économisées',en:'176 refs · 21h saved'}, build:buildImageGen },
   python:      { icon:'🐍', label:{fr:'Scripts Python métier',en:'Python Business Tools'}, sub:{fr:'19 outils · GUI native',en:'19 tools · native GUI'}, build:buildPython },
   make:        { icon:'⚙️', label:{fr:'Automatisations Make',en:'Make Automations'}, sub:{fr:'5 scénarios · 600+ exec.',en:'5 scenarios · 600+ exec.'}, build:buildMake },
+  plan90:      { icon:'📅', label:{fr:'Plan 90 jours',en:'90-day plan'}, sub:{fr:'Comprendre · Livrer · Structurer',en:'Understand · Ship · Structure'}, build:buildPlan90 },
 };
 
 /* ── VISITED NAV ── */
@@ -874,11 +875,29 @@ function openImpactShortcut() {
 
 function openPlan90Shortcut() {
   activateChat();
-  addUserMsg(lang==='fr' ? 'Plan 90 jours' : '90-day plan');
-  const reply = lang==='fr'
-    ? "Si j'arrive dans une entreprise, je structure d'abord le terrain avant d'ajouter des outils.\n\n→ 7 jours : audit acquisition, CRM, opérations et points de friction\n→ 30 jours : diagnostic clair, priorités assumées, premiers quick wins en production\n→ 90 jours : système plus robuste, automatisations utiles, meilleure conversion et moins de tâches manuelles"
-    : "If I join a company, I structure the ground first before adding tools.\n\n→ 7 days: audit acquisition, CRM, operations and friction points\n→ 30 days: clear diagnosis, explicit priorities, first production quick wins\n→ 90 days: more robust systems, useful automation, better conversion and fewer manual tasks";
-  addBotMsg(reply);
+  addBotMsg(lang==='fr' ? 'Voici comment j\'aborde les 90 premiers jours.' : 'Here\'s how I approach the first 90 days.', 'plan90');
+}
+
+function buildPlan90() {
+  return `<div style="display:flex;flex-direction:column;gap:8px;">
+    <div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:4px;">${lang==='fr'?'Les 90 premiers jours — comment j\'aborde un nouveau contexte':'First 90 days — how I approach a new context'}</div>
+    ${block(lang==='fr'?'La logique':'The logic', lang==='fr'?'On ne pose pas d\'outils sur un terrain qu\'on ne comprend pas. Les 3 premiers mois servent à comprendre, prioriser, et livrer — dans cet ordre.':'You don\'t deploy tools on ground you don\'t understand. The first 3 months are for understanding, prioritizing, and shipping — in that order.')}
+    <div style="display:flex;flex-direction:column;gap:5px;margin:4px 0;">
+      <div style="padding:11px 13px;background:var(--subtle);border-radius:8px;border-left:3px solid var(--border);">
+        <div style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px;">J+7 — Comprendre</div>
+        <div style="font-size:12px;color:var(--text);line-height:1.65;">${lang==='fr'?'Audit acquisition, CRM, opérations. Cartographier les points de friction réels — pas ceux décrits en entretien. Identifier où se perd la valeur.':'Audit acquisition, CRM, operations. Map real friction points — not the ones described in interviews. Identify where value is lost.'}</div>
+      </div>
+      <div style="padding:11px 13px;background:var(--subtle);border-radius:8px;border-left:3px solid var(--muted);">
+        <div style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px;">J+30 — Livrer</div>
+        <div style="font-size:12px;color:var(--text);line-height:1.65;">${lang==='fr'?'Diagnostic clair, priorités assumées, premiers quick wins en production. Pas de PowerPoint — des choses qui tournent. Sur la prospection Manuvit : pipeline de devis opérationnel en 3 semaines.':'Clear diagnosis, explicit priorities, first production quick wins. No PowerPoints — things that run. On Manuvit prospecting: quote pipeline live in 3 weeks.'}</div>
+      </div>
+      <div style="padding:11px 13px;background:var(--text);border-radius:8px;">
+        <div style="font-size:11px;font-weight:600;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px;">J+90 — Structurer</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.9);line-height:1.65;">${lang==='fr'?'Système plus robuste, automatisations utiles, meilleure conversion et moins de tâches manuelles. Les outils servent la stratégie — pas l\'inverse.':'More robust systems, useful automation, better conversion and fewer manual tasks. Tools serve strategy — not the other way around.'}</div>
+      </div>
+    </div>
+    ${block(lang==='fr'?'Ce que ça donne en pratique':'What this looks like in practice', lang==='fr'?'Chez Momentum : pipeline devis 10min→10sec en 3 semaines. Prospection 4 191 contacts structurée en 2 mois. SEO pipeline Make+Claude+WordPress déployé en 1 mois. Aucun de ces projets n\'existait avant l\'audit initial.':'At Momentum: quote pipeline 10min→10sec in 3 weeks. 4,191-contact prospecting structured in 2 months. Make+Claude+WordPress SEO pipeline deployed in 1 month. None of these existed before the initial audit.')}
+  </div>`;
 }
 
 /* ── SEND ── */
