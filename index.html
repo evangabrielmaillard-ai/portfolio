@@ -82,12 +82,10 @@ header.scrolled .back-btn { display: flex; }
 .li-btn svg { width: 13px; height: 13px; fill: currentColor; }
 
 /* APP */
-.app { min-height: 100vh; display: flex; flex-direction: column; max-width: 720px; margin: 0 auto; position: relative; }
+.app { height: 100vh; display: flex; flex-direction: column; max-width: 720px; margin: 0 auto; position: relative; }
 
 /* LANDING */
-.landing { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 1.25rem 1.5rem 0.75rem; text-align: center; transition: opacity 0.35s, transform 0.35s; }
-.landing-stack { width: 100%; max-width: 680px; display: flex; flex-direction: column; align-items: center; gap: 0.8rem; }
-.hero-copy { max-width: 560px; margin-bottom: 0.2rem; }
+.landing { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0 1.5rem 140px; text-align: center; transition: opacity 0.35s, transform 0.35s; }
 .landing.hidden { opacity: 0; pointer-events: none; position: absolute; top: 0; left: 0; right: 0; bottom: 0; transform: translateY(-16px); }
 
 .landing-photo { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin-bottom: 1.25rem; opacity: 0; transform: scale(0.85); animation: photoIn 0.6s cubic-bezier(0.34,1.56,0.64,1) 0.1s forwards; border: 2px solid var(--border); }
@@ -99,15 +97,8 @@ header.scrolled .back-btn { display: flex; }
 @keyframes wordIn { to { opacity: 1; transform: translateY(0); } }
 .landing-name { font-family: var(--font-serif); font-size: clamp(3.8rem, 11vw, 6.5rem); line-height: 0.95; letter-spacing: -0.04em; font-weight: 600; margin-bottom: 0.75rem; }
 .landing-name em { font-style: normal; color: var(--muted); font-weight: 300; }
-.landing-title { font-size: clamp(0.9rem, 2vw, 1rem); color: var(--muted); font-weight: 400; letter-spacing: 0.04em; margin-bottom: 1rem; }
-.landing-tagline { font-size: clamp(0.95rem, 2vw, 1.05rem); color: var(--text); font-weight: 300; line-height: 1.6; min-height: 1.7em; margin-bottom: 1.4rem; max-width: 520px; }
-.hero-subline { font-size: 13px; line-height: 1.65; color: var(--muted); max-width: 600px; margin: 0 auto 1.5rem; }
-.impact-preview { width: 100%; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin: 0 0 1rem; }
-.impact-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 12px 14px; text-align: left; min-height: 82px; }
-.impact-card-value { font-family: var(--font-serif); font-size: 28px; line-height: 1; letter-spacing: -0.03em; color: var(--text); margin-bottom: 6px; }
-.impact-card-label { font-size: 12px; color: var(--muted); line-height: 1.45; }
-.landing-pills { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 0 0 1rem; }
-.landing-pill { border: 1px solid var(--border); border-radius: 999px; padding: 6px 10px; font-size: 11px; color: var(--muted); background: var(--surface); }
+.landing-title { font-size: clamp(0.85rem, 2vw, 1rem); color: var(--muted); font-weight: 300; letter-spacing: 0.04em; margin-bottom: 1.25rem; }
+.landing-tagline { font-size: clamp(0.9rem, 2vw, 1.05rem); color: var(--text); font-weight: 300; line-height: 1.6; min-height: 1.7em; margin-bottom: 3rem; max-width: 480px; }
 .tagline-cursor { display: inline-block; width: 2px; height: 1em; background: var(--muted); margin-left: 2px; vertical-align: text-bottom; animation: blink 0.9s step-end infinite; }
 @keyframes blink { 0%,100% { opacity:1; } 50% { opacity:0; } }
 
@@ -222,7 +213,7 @@ header.scrolled .back-btn { display: flex; }
 
 /* INPUT ZONE */
 .input-zone { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 720px; padding: 0 1.5rem 1.5rem; background: linear-gradient(to bottom, transparent, var(--bg) 40%); transition: bottom 0.35s cubic-bezier(0.4,0,0.2,1), top 0.35s cubic-bezier(0.4,0,0.2,1); z-index: 30; }
-.input-zone.centered { position: static; transform: none; width: 100%; max-width: 680px; padding: 0; background: none; margin: 0 auto; }
+.input-zone.centered { bottom: auto; top: 55%; transform: translate(-50%, -50%); }
 .input-box { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; box-shadow: 0 2px 16px rgba(0,0,0,0.06); transition: box-shadow 0.15s; }
 .input-box:focus-within { box-shadow: 0 2px 24px rgba(0,0,0,0.1); border-color: #C8C5BE; }
 .input-row { display: flex; align-items: flex-end; }
@@ -256,7 +247,8 @@ header.scrolled .back-btn { display: flex; }
 .chips-more-row { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
 
 /* FOOTER */
-.site-footer { text-align: center; padding: 0.1rem 1.5rem 2rem; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.site-footer { text-align: center; padding: 1.5rem 1.5rem 7rem; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.site-footer.chat-active { display: none; }
 .footer-updated { font-size: 10px; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; opacity: 0.6; }
 .footer-github { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted); text-decoration: none; transition: color 0.12s; letter-spacing: 0.01em; }
 .footer-github:hover { color: var(--text); }
@@ -282,13 +274,9 @@ header.scrolled .back-btn { display: flex; }
   .li-btn span { display: none; }
 
   /* Landing */
-  .landing { padding: 1rem 1rem 1.25rem; }
-  .landing-name { font-size: clamp(2.8rem, 16vw, 4rem); margin-bottom: 0.5rem; }
-  .landing-tagline { font-size: 0.95rem; margin-bottom: 1rem; }
-  .hero-subline { font-size: 12px; margin-bottom: 1rem; }
-  .impact-preview { grid-template-columns: 1fr; gap: 8px; }
-  .impact-card { min-height: auto; }
-  .impact-card-value { font-size: 24px; }
+  .landing { padding: 0 1rem 160px; }
+  .landing-name { font-size: clamp(2.4rem, 14vw, 3.2rem); }
+  .landing-tagline { font-size: 0.9rem; }
 
   /* Messages */
   .messages { padding: 60px 1rem 1rem; }
@@ -296,7 +284,7 @@ header.scrolled .back-btn { display: flex; }
 
   /* Input zone */
   .input-zone { padding: 0 1rem 1rem; }
-  .input-zone.centered { position: static; transform: none; width: 100%; max-width: 100%; margin: 0 auto; }
+  .input-zone.centered { top: 52%; transform: translate(-50%, -50%); }
   .chat-input { font-size: 14px; padding: 11px 8px 11px 13px; }
 
   /* Chips - allow wrapping on mobile */
@@ -352,18 +340,22 @@ header.scrolled .back-btn { display: flex; }
 
 <div class="app">
   <div class="landing" id="landing">
-    <div class="landing-stack">
-      <div class="hero-copy">
-        <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCABQAFADASIAAhEBAxEB/8QAHAAAAQUBAQEAAAAAAAAAAAAAAAMEBQYHAgEI/8QAOBAAAgEDAQYEBAMGBwAAAAAAAQIDAAQRBQYSITFBYRMiUXEHgaHBFVKRFDI2QrGyFmJyotHi8P/EABkBAAIDAQAAAAAAAAAAAAAAAAMEAAIFAf/EACMRAAIDAAIDAAEFAAAAAAAAAAABAgMRBCESE0ExBSIyUVL/2gAMAwEAAhEDEQA/ANOoooqECiiqz8QNSudN2Zc2blJriRYA45qGzkjvgVCETrHxLsrS4kg020a73GKmVm3EJHpwJPvwrjSPifYXFx4OqWj2eTgSK2+o9+GR9ai9D2dszaIZY1kYjOW5V5qex+myB3i3on6brcP0oPtWjHobWmpqyuoZSCpGQR1Fe1XNg5J/8OrbXL772krwBs81HFfoQKsdGXYu+goooqECiiioQKqu348bSorcRknxBMG6DdIz9DVqrN9vNrCL78NsVSSKAkTt13uWFPbr+ld8JTT8S0XFSXkLEXUMcS2TYXA5dPlg5rq7ubyZIY0RUJUmQgcyPkcUhZ6sklnDDayATuCcMOg7+tJSTXVu8bpeRSJFvMcRAEDHHJz8sCkTRTWFr2QkAt7m33W30kDsx5HeH/WrDUNsqxm0s3O7urPIXThjK8Bn6Gpmm4fxRn2Z5PAoooqxQKKKjNodWTRdHmvXAZl8sa/mc8h/70rqTbxEbwd319aWEBmvLiOGMdXYDPt61g00njXU0w4b7s2D3Oac313d6jcGe+neaU8cueXYeg9qY7pV+3pWrRx3V2/otOfkKI72ziXcaVRyH5acXV6hsQyWHh8AN4ADtSSZ3RuH5HlXEijxAzINwfyHjx96ByOE3JSh9/ISu/rJGk7EbWWp0+DTdUuFiuU8sbOMKy9BnlkcvlV4BDAEEEHkRXzycsxJ6cKl9C2hv9EvI5YJWeLOJIWY7rj7HvUs4n2JyNn9m4UUx0bVbbWdOjvbUndbgynmjDmDT6kWmnjDBVA+Jt2WksrEcgGmb35D71f6y34gy7+0zKeUUKL7cz96Z4cdtQK55Eq4HXr6iuJVDYYevGlv3ePTowrhgMnuM1ttCaYgMxnsa7bDLmrJJs9phiik/F0jDRh2VihIJGeHEdeA786az6PYwEk6nGUMaSKvAMynnjj04fr2oHui+gniyvqOHvQ4AxVqgttAhtoh+zXN7I+XHh5J5lcZGBgFc8eYPSoeaylu9ZlgtbYRbzF1j3hiNe5qvtj3vSRZRbeIlNhtf/BtU8K4Yi0ucLJ6K3Rvse3tWvVgM1ncJBHcSRssEjFUfoxHOtm2Ru5r7ZixuLht+VkIZvXBIz9KR5kI9TiGrbXTJisp26GNq7k+qRn/AG1q1Zx8R7Ux6xbXIHlmh3Se6n/giqcJ5acvX7CobvHyeXPTpSTZRhkgDPEU4Knd4fWm8uCRG48pIJCgk4zWzN5HRSPbwdpeLGvltbQkDGWj3s96Rm1CViXCQLlQvliAxg5H9KvFvoem6napcwQwyRuvMAZHY96Vg2P04Ek2keP82T/Wsh/qUPsHo+uI/wDRnkuqTyKUe6cqT+4pwP0FT+gSafb6Q5uZlje6bEpyMiMfy+5qJ1a2gt9WuoYMbiSsq4HpTJwBk9+Hem7KXfWluL8gYWKuW5pYNodUsrqyNvaKGkLLjyYWNR0X7mtA2E/g7T8/lb+9qxxj6Vsewn8Haf8A6X/valb6I00qMX9CKx2S1n//2Q==" alt="Evan Maillard" class="landing-photo">
+    <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCABQAFADASIAAhEBAxEB/8QAHAAAAQUBAQEAAAAAAAAAAAAAAAMEBQYHAgEI/8QAOBAAAgEDAQYEBAMGBwAAAAAAAQIDAAQRBQYSITFBYRMiUXEHgaHBFVKRFDI2QrGyFmJyotHi8P/EABkBAAIDAQAAAAAAAAAAAAAAAAMEAAIFAf/EACMRAAIDAAIDAAEFAAAAAAAAAAABAgMRBCESE0ExBSIyUVL/2gAMAwEAAhEDEQA/ANOoooqECiiqz8QNSudN2Zc2blJriRYA45qGzkjvgVCETrHxLsrS4kg020a73GKmVm3EJHpwJPvwrjSPifYXFx4OqWj2eTgSK2+o9+GR9ai9D2dszaIZY1kYjOW5V5qex+myB3i3on6brcP0oPtWjHobWmpqyuoZSCpGQR1Fe1XNg5J/8OrbXL772krwBs81HFfoQKsdGXYu+goooqECiiioQKqu348bSorcRknxBMG6DdIz9DVqrN9vNrCL78NsVSSKAkTt13uWFPbr+ld8JTT8S0XFSXkLEXUMcS2TYXA5dPlg5rq7ubyZIY0RUJUmQgcyPkcUhZ6sklnDDayATuCcMOg7+tJSTXVu8bpeRSJFvMcRAEDHHJz8sCkTRTWFr2QkAt7m33W30kDsx5HeH/WrDUNsqxm0s3O7urPIXThjK8Bn6Gpmm4fxRn2Z5PAoooqxQKKKjNodWTRdHmvXAZl8sa/mc8h/70rqTbxEbwd319aWEBmvLiOGMdXYDPt61g00njXU0w4b7s2D3Oac313d6jcGe+neaU8cueXYeg9qY7pV+3pWrRx3V2/otOfkKI72ziXcaVRyH5acXV6hsQyWHh8AN4ADtSSZ3RuH5HlXEijxAzINwfyHjx96ByOE3JSh9/ISu/rJGk7EbWWp0+DTdUuFiuU8sbOMKy9BnlkcvlV4BDAEEEHkRXzycsxJ6cKl9C2hv9EvI5YJWeLOJIWY7rj7HvUs4n2JyNn9m4UUx0bVbbWdOjvbUndbgynmjDmDT6kWmnjDBVA+Jt2WksrEcgGmb35D71f6y34gy7+0zKeUUKL7cz96Z4cdtQK55Eq4HXr6iuJVDYYevGlv3ePTowrhgMnuM1ttCaYgMxnsa7bDLmrJJs9phiik/F0jDRh2VihIJGeHEdeA786az6PYwEk6nGUMaSKvAMynnjj04fr2oHui+gniyvqOHvQ4AxVqgttAhtoh+zXN7I+XHh5J5lcZGBgFc8eYPSoeaylu9ZlgtbYRbzF1j3hiNe5qvtj3vSRZRbeIlNhtf/BtU8K4Yi0ucLJ6K3Rvse3tWvVgM1ncJBHcSRssEjFUfoxHOtm2Ru5r7ZixuLht+VkIZvXBIz9KR5kI9TiGrbXTJisp26GNq7k+qRn/AG1q1Zx8R7Ux6xbXIHlmh3Se6n/giqcJ5acvX7CobvHyeXPTpSTZRhkgDPEU4Knd4fWm8uCRG48pIJCgk4zWzN5HRSPbwdpeLGvltbQkDGWj3s96Rm1CViXCQLlQvliAxg5H9KvFvoem6napcwQwyRuvMAZHY96Vg2P04Ek2keP82T/Wsh/qUPsHo+uI/wDRnkuqTyKUe6cqT+4pwP0FT+gSafb6Q5uZlje6bEpyMiMfy+5qJ1a2gt9WuoYMbiSsq4HpTJwBk9+Hem7KXfWluL8gYWKuW5pYNodUsrqyNvaKGkLLjyYWNR0X7mtA2E/g7T8/lb+9qxxj6Vsewn8Haf8A6X/valb6I00qMX9CKx2S1n//2Q==" alt="Evan Maillard" class="landing-photo">
     <p class="landing-eyebrow" id="eyebrow">Portfolio interactif</p>
     <h1 class="landing-name"><span class="word-evan">Evan</span><br><em class="word-maillard">Maillard</em></h1>
     <p class="landing-title" style="animation-fill-mode:both;">Digital Systems · Automation · AI</p>
     <p class="landing-tagline" id="tagline" style="opacity:0;animation:fadeUp 0.5s ease 0.9s both;"><span class="tagline-cursor"></span></p>
-        <p class="hero-subline">Je construis des systèmes utiles qui libèrent du temps, augmentent la conversion et rendent l’IA exploitable en conditions réelles.</p>
-      </div>
-    </div>
   </div>
   <div class="messages" id="messages"></div>
+  <footer class="site-footer">
+    <div class="footer-updated" id="footerUpdated">Dernière mise à jour du portfolio</div>
+    <a href="https://github.com/evangabrielmaillard-ai/portfolio-as-a-conversation" target="_blank" class="footer-github">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+      <span id="footerLabel">Projet disponible en open source sur mon GitHub</span>
+    </a>
+  </footer>
+</div>
+
 <div class="input-zone centered" id="inputZone">
   <div id="recruiterBanner" class="recruiter-banner">
     <span>🎯</span>
@@ -419,15 +411,6 @@ header.scrolled .back-btn { display: flex; }
     </div>
   </div>
 </div>
-  <footer class="site-footer">
-    <div class="footer-updated" id="footerUpdated">Dernière mise à jour du portfolio</div>
-    <a href="https://github.com/evangabrielmaillard-ai/portfolio-as-a-conversation" target="_blank" class="footer-github">
-      <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
-      <span id="footerLabel">Projet disponible en open source sur mon GitHub</span>
-    </a>
-  </footer>
-</div>
-
 
 <script>
 /* ── DATA ── */
@@ -451,7 +434,6 @@ const DATA = {
 // System prompt moved to Vercel environment variable: SYSTEM_PROMPT
 
 const TAGLINES = [
-  "Je conçois des systèmes qui transforment des process métiers en leviers mesurables.",
   "Le vrai problème n'est rarement celui qu'on croit.",
   "J'ai construit des systèmes qui tournent. Pas des slides qui expliquent pourquoi.",
   "SEO, CRM, automation : trois leviers. Un seul système.",
@@ -553,6 +535,8 @@ function setLang(l) {
   const fl = document.getElementById('footerLabel');
   if (fl) fl.textContent = l==='fr' ? 'Projet disponible en open source sur mon GitHub' : 'Project available as open source on my GitHub';
   hydrateFooterDate();
+  const fl = document.getElementById('footerLabel');
+  if (fl) fl.textContent = l==='fr' ? 'Projet disponible en open source sur mon GitHub' : 'Project available as open source on my GitHub';
 }
 
 function hydrateFooterDate() {
@@ -881,6 +865,7 @@ function resize(el) { el.style.height='auto'; el.style.height=Math.min(el.scroll
 function onKey(e) { if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send();} }
 function chipSend(btn) { document.getElementById('inp').value = lang==='fr'?btn.dataset.fr:btn.dataset.en; send(); }
 
+
 function openImpactShortcut() {
   activateChat();
   addUserMsg(lang==='fr' ? 'Impact business' : 'Business impact');
@@ -955,7 +940,7 @@ async function send() {
 
 /* ── INIT ── */
 window.addEventListener('DOMContentLoaded', () => {
-  const tag = TAGLINES[Math.floor(Math.random() * TAGLINES.length)];
+  const tag = TAGLINES[Math.floor(Math.random()*TAGLINES.length)];
   setTimeout(() => typewrite(document.getElementById('tagline'), tag), 600);
   hydrateFooterDate();
 });
