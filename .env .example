@@ -1,0 +1,8 @@
+# Clé API Anthropic
+# Obtenir sur : https://console.anthropic.com/
+ANTHROPIC_API_KEY=sk-ant-...
+
+# System prompt complet du chatbot
+# Contient : persona, réalisations, triggers de panneaux, règles de formatage
+# Ne jamais committer la vraie valeur — gérer via Vercel Environment Variables
+SYSTEM_PROMPT=Tu es l'interface conversationnelle du portfolio d'Evan Maillard...
