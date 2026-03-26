@@ -1,3 +1,33 @@
+import fs from 'node:fs';
+import path from 'node:path';
+
+let cachedSystemPrompt = null;
+
+function getSystemPrompt() {
+  if (cachedSystemPrompt) return cachedSystemPrompt;
+
+  const envPrompt = process.env.SYSTEM_PROMPT?.trim();
+  if (envPrompt) {
+    cachedSystemPrompt = envPrompt;
+    return cachedSystemPrompt;
+  }
+
+  const filePath = path.join(process.cwd(), 'prompts', 'system-prompt.txt');
+
+  if (!fs.existsSync(filePath)) {
+    throw new Error(`System prompt introuvable : ${filePath}`);
+  }
+
+  const filePrompt = fs.readFileSync(filePath, 'utf8').trim();
+
+  if (!filePrompt) {
+    throw new Error('Le fichier system-prompt.txt est vide.');
+  }
+
+  cachedSystemPrompt = filePrompt;
+  return cachedSystemPrompt;
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -16,10 +46,12 @@ export default async function handler(req, res) {
     });
   }
 
-  const systemPrompt = process.env.SYSTEM_PROMPT || '';
-  if (!systemPrompt) {
+  let systemPrompt = '';
+  try {
+    systemPrompt = getSystemPrompt();
+  } catch (error) {
     return res.status(200).json({
-      content: [{ text: 'DEBUG: System prompt manquant — variable SYSTEM_PROMPT non trouvée.' }]
+      content: [{ text: `DEBUG: ${error.message}` }]
     });
   }
 
