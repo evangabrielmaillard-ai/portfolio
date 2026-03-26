@@ -17,6 +17,19 @@
 <meta name="twitter:description" content="Je construis des systèmes qui tournent : acquisition, CRM, automation, IA.">
 <meta name="twitter:image" content="https://portfolio-evangabrielmaillard-ais-projects.vercel.app/og.png">
 <link rel="canonical" href="https://www.evangabrielmaillard.com">
+<!--
+  👋 Tu inspectes le code source.
+  C'est exactement ce qu'Evan aurait fait à ta place.
+
+  Ce site a été construit en une soirée + une matinée.
+  Zéro framework. Zéro ligne de code écrite manuellement.
+  Juste un système bien cadré et de l'itération.
+
+  Si tu cherches ce type de profil : linkedin.com/in/evan-gabriel-maillard
+  Si tu es juste curieux : bienvenue dans le club.
+
+  ↑↑↓↓←→←→BA
+-->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -819,6 +832,44 @@ function addUserMsg(text) {
   scroll();
 }
 
+function typewriterMsg(text, panelType, onDone) {
+  const el = document.createElement('div');
+  el.className = 'msg-row bot';
+  const content = document.createElement('div');
+  content.className = 'msg-content';
+  const b = document.createElement('div');
+  b.className = 'msg-bubble';
+  b.innerHTML = '<p></p>';
+  content.appendChild(b);
+  el.innerHTML = `<div class="msg-avatar">EM</div>`;
+  el.appendChild(content);
+  document.getElementById('messages').appendChild(el);
+  scroll();
+
+  const parsed = parseMarkdown(text);
+  const words = parsed.split(/(<[^>]+>|\s+)/g).filter(Boolean);
+  let i = 0;
+  const para = b.querySelector('p');
+
+  function nextWord() {
+    if (i < words.length) {
+      para.innerHTML += words[i++];
+      scroll();
+      setTimeout(nextWord, words[i-1].startsWith('<') ? 0 : 22);
+    } else {
+      // Afficher les éléments post-message une fois terminé
+      if (text && text.length > 20) addFollowupChips(content);
+      msgCount++;
+      if (msgCount > 0 && msgCount % 4 === 0 && !document.querySelector('.contact-cta')) {
+        setTimeout(() => addContactCTA(), 500);
+      }
+      if (panelType) { content.appendChild(makePanel(panelType)); registerVisit(panelType); scroll(); }
+      if (onDone) onDone();
+    }
+  }
+  nextWord();
+}
+
 function addBotMsg(text, panelType) {
   const el = document.createElement('div');
   el.className = 'msg-row bot';
@@ -969,7 +1020,11 @@ async function send() {
     } catch(e) {}
 
     history.push({role:'assistant',content:reply});
-    addBotMsg(displayText, panelType);
+    if (displayText && !panelType) {
+      typewriterMsg(displayText, null, null);
+    } else {
+      addBotMsg(displayText, panelType);
+    }
   } catch(e) {
     removeTyping();
     addBotMsg(lang==='fr'?'Une erreur est survenue. Réessayez.':'An error occurred. Please try again.');
@@ -985,6 +1040,29 @@ window.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => typewrite(document.getElementById('tagline'), tag), 600);
   hydrateFooterDate();
   adjustMessagesPadding();
+
+  // Titre d'onglet dynamique
+  const titleDefault = document.title;
+  const titleAway = lang === 'fr' ? '← Evan attend une question' : '← Evan is waiting';
+  document.addEventListener('visibilitychange', () => {
+    document.title = document.hidden ? titleAway : titleDefault;
+  });
+
+  // Konami code → easter egg
+  const konami = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+  let ki = 0;
+  document.addEventListener('keydown', (e) => {
+    if (e.key === konami[ki]) {
+      ki++;
+      if (ki === konami.length) {
+        ki = 0;
+        activateChat();
+        addBotMsg(lang==='fr'
+          ? '✦ Easter egg activé. Tu fais partie des rares personnes qui testent vraiment les interfaces.'
+          : '✦ Easter egg unlocked. You\'re one of the rare ones who actually tests interfaces.', 'easter');
+      }
+    } else { ki = 0; }
+  });
 });
 window.addEventListener('resize', adjustMessagesPadding);
 </script>
