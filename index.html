@@ -18,15 +18,15 @@
 <meta name="twitter:image" content="https://portfolio-evangabrielmaillard-ais-projects.vercel.app/og.png">
 <link rel="canonical" href="https://www.evangabrielmaillard.com">
 <!--
-  👋 Tu inspectes le code source - c'est fait avec GPT & Claude
-  Je l'aurais pas fait, mais je m'en doutais que quelqu'un le ferait.  
+  👋 Tu inspectes le code source.
+   Je ne l'aurais pas fait. 
 
-  Ce site a été construit en une soirée + une matinée - et quelques itérations
+  J'ai construit l'idée en une soirée + manitée avec Claude & GPT
   Zéro framework. Zéro ligne de code écrite manuellement.
-  Juste un système bien cadré et de l'itération.
+  Juste un système bien cadré et de l'itération (environ 60 à date) 
 
   Si tu cherches ce type de profil : linkedin.com/in/evan-gabriel-maillard
-  Si tu es juste curieux. 
+  Si tu es juste curieux : bienvenue dans le club.
 
   ↑↑↓↓←→←→BA
 -->
@@ -230,10 +230,8 @@ header.scrolled .back-btn { display: flex; }
 .contact-cta-btn:hover { opacity: 0.85; }
 
 /* typing */
-.typing-dots { display: flex; gap: 4px; align-items: center; padding: 2px 0; }
-.dot { width: 5px; height: 5px; border-radius: 50%; background: var(--muted); animation: bounce 1.2s infinite; }
-.dot:nth-child(2) { animation-delay: 0.18s; }
-.dot:nth-child(3) { animation-delay: 0.36s; }
+.response-time { font-size: 10px; color: var(--muted); opacity: 0.5; margin-top: 4px; padding-left: 36px; letter-spacing: 0.03em; }
+.typing-label { font-size: 13px; color: var(--muted); transition: opacity 0.18s ease; display: inline-block; min-width: 140px; }
 @keyframes bounce { 0%,60%,100% { transform:translateY(0); opacity:0.35; } 30% { transform:translateY(-4px); opacity:1; } }
 
 /* INPUT ZONE */
@@ -431,6 +429,7 @@ header.scrolled .back-btn { display: flex; }
           <button class="chip" onclick="chipSend(this)" data-fr="Ton générateur d'images IA" data-en="Your AI image generator">Générateur d'images IA</button>
           <button class="chip" onclick="chipSend(this)" data-fr="Tes automatisations Make" data-en="Your Make automations">Automatisations Make</button>
           <button class="chip" onclick="chipSend(this)" data-fr="Tes scripts Python" data-en="Your Python scripts">Scripts Python</button>
+          <button class="chip" onclick="chipSend(this)" data-fr="Ce qui n'a pas marché" data-en="What didn't work">Ce qui n'a pas marché</button>
         </div>
       </div>
     </div>
@@ -492,11 +491,24 @@ const FOLLOWUP_POOLS = {
     ["Is this applicable to my company?", "What tool would you use today?", "Show me the full system"],
     ["What's the first concrete step?", "Where do most people go wrong?", "Can you elaborate?"],
     ["What's the real lever here?", "What changes with no budget?", "How would you prioritize?"],
+  ],
+  failures_fr: [
+    ["Pourquoi t'as pas persévéré sur Feedcasse ?", "C'était quoi le vrai signal sur Carnetto ?", "Tu referais ça aujourd'hui ?"],
+    ["T'as vendu comment les 100 premières licences ?", "C'était quoi le moment exact où t'as lâché ?", "T'as appris quoi sur toi ?"],
+  ],
+  failures_en: [
+    ["Why didn't you push further on Feedcasse?", "What was the real signal with Carnetto?", "Would you do it again today?"],
+    ["How did you sell the first 100 licenses?", "What was the exact moment you let go?", "What did you learn about yourself?"],
   ]
 };
 
-function addFollowupChips(parentEl) {
-  const pool = FOLLOWUP_POOLS[lang] || FOLLOWUP_POOLS.fr;
+function addFollowupChips(parentEl, context) {
+  let pool;
+  if (context === 'failures') {
+    pool = FOLLOWUP_POOLS['failures_' + lang] || FOLLOWUP_POOLS.failures_fr;
+  } else {
+    pool = FOLLOWUP_POOLS[lang] || FOLLOWUP_POOLS.fr;
+  }
   const set = pool[Math.floor(Math.random() * pool.length)];
   const wrap = document.createElement('div');
   wrap.className = 'followup-chips';
@@ -768,6 +780,57 @@ function buildMake() {
   </div>`;
 }
 
+function buildFailures() {
+  return `<div style="display:flex;flex-direction:column;gap:10px;">
+
+    <div style="font-size:13px;font-weight:500;color:var(--text);">${lang==='fr'?'Deux projets. Deux leçons différentes.':'Two projects. Two different lessons.'}</div>
+    <div style="font-size:12px;color:var(--muted);line-height:1.7;">${lang==='fr'?'Celle sur Carnetto est probablement la plus honnête. Mais on commence par Feedcasse.':'The Carnetto one is probably the most honest. But let\'s start with Feedcasse.'}</div>
+
+    <div style="border-left:2px solid var(--border);padding:10px 14px;background:var(--subtle);border-radius:0 8px 8px 0;">
+      <div style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px;">Feedcasse</div>
+      <div style="font-size:12px;color:var(--text);line-height:1.75;">${lang==='fr'
+        ? 'L\'idée de départ n\'était pas vraiment un business. C\'était une question : est-ce que je suis capable d\'automatiser quelque chose de complexe qui ne me parle pas naturellement ?'
+        : 'The starting point wasn\'t really a business. It was a question: can I automate something complex that doesn\'t naturally speak to me?'}</div>
+      <div style="font-size:12px;color:var(--muted);line-height:1.75;margin-top:6px;">${lang==='fr'
+        ? 'Le sujet : du montage vidéo automatisé pour TikTok et Instagram. Le pipeline a tourné. Les vidéos sortaient. Elles ressemblaient à des vidéos faites par quelqu\'un qui consomme beaucoup de contenu mais ne comprend pas vraiment pourquoi certaines choses cartonnent.'
+        : 'The subject: automated video editing for TikTok and Instagram. The pipeline worked. Videos were published. They looked like videos made by someone who consumes a lot of content but doesn\'t really understand why some things blow up.'}</div>
+      <div style="font-size:12px;color:var(--text);line-height:1.75;margin-top:6px;font-style:italic;">${lang==='fr'
+        ? 'Ce quelqu\'un, c\'était moi.'
+        : 'That someone was me.'}</div>
+    </div>
+
+    <div style="padding:10px 14px;background:var(--text);border-radius:8px;">
+      <div style="font-size:12px;color:rgba(255,255,255,0.85);line-height:1.7;">${lang==='fr'
+        ? '→ J\'avais les codes techniques. Pas les codes culturels. Une fois le pipeline prouvé, j\'aurais pu persévérer. Je ne l\'ai pas fait. Peut-être à tort.'
+        : '→ I had the technical skills. Not the cultural ones. Once the pipeline was proven, I could have pushed further. I didn\'t. Maybe I should have.'}</div>
+    </div>
+
+    <div style="border-left:2px solid var(--border);padding:10px 14px;background:var(--subtle);border-radius:0 8px 8px 0;margin-top:4px;">
+      <div style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px;">Carnetto</div>
+      <div style="font-size:12px;color:var(--text);line-height:1.75;">${lang==='fr'
+        ? 'J\'avais acheté une voiture électrique. Je voulais suivre ma consommation. Rien d\'existant ne me convenait exactement. Alors j\'ai construit Carnetto.'
+        : 'I bought an electric car. I wanted to track my consumption. Nothing existing suited me exactly. So I built Carnetto.'}</div>
+      <div style="font-size:12px;color:var(--muted);line-height:1.75;margin-top:6px;">${lang==='fr'
+        ? '100 licences. Les gens utilisaient l\'app. Ils demandaient des fonctionnalités, des changements de structure. Et là, problème : le produit que je voulais, c\'était mon produit. Pas forcément le leur.'
+        : '100 licenses. People were using the app. They asked for features, structural changes. And there was the problem: the product I wanted was my product. Not necessarily theirs.'}</div>
+      <div style="font-size:12px;color:var(--text);line-height:1.75;margin-top:6px;font-style:italic;">${lang==='fr'
+        ? 'Pendant ce temps, sans m\'en rendre compte, je changeais moi-même mes habitudes. D\'un suivi quotidien, je passais à hebdomadaire. Puis mensuel.'
+        : 'Meanwhile, without realizing it, I was changing my own habits. From daily tracking to weekly. Then monthly.'}</div>
+    </div>
+
+    <div style="padding:10px 14px;background:var(--text);border-radius:8px;">
+      <div style="font-size:12px;color:rgba(255,255,255,0.85);line-height:1.7;">${lang==='fr'
+        ? '→ Je m\'étais désengagé de mon propre produit avant les utilisateurs. C\'est le signal que j\'aurais dû écouter plus tôt.'
+        : '→ I had disengaged from my own product before the users did. That\'s the signal I should have caught earlier.'}</div>
+    </div>
+
+    <div style="font-size:12px;color:var(--muted);line-height:1.7;padding:10px 12px;background:var(--subtle);border-radius:8px;border-left:2px solid var(--border);">${lang==='fr'
+      ? 'Les deux projets ont une chose en commun : j\'ai arrêté quand j\'avais répondu à ma vraie question. Ce n\'est pas tout à fait un échec. Ce n\'est pas tout à fait un succès. <span style="color:var(--text);font-weight:500;">C\'est honnête.</span>'
+      : 'Both projects have one thing in common: I stopped when I\'d answered my real question. Not quite a failure. Not quite a success. <span style="color:var(--text);font-weight:500;">Just honest.</span>'}</div>
+
+  </div>`;
+}
+
 /* ── PANELS REGISTRY ── */
 const PANELS = {
   projects:    { icon:'🚀', label:{fr:'Side projects',en:'Side projects'}, sub:{fr:'5 projets',en:'5 projects'}, build:buildProjects },
@@ -783,6 +846,7 @@ const PANELS = {
   python:      { icon:'🐍', label:{fr:'Scripts Python métier',en:'Python Business Tools'}, sub:{fr:'19 outils · GUI native',en:'19 tools · native GUI'}, build:buildPython },
   make:        { icon:'⚙️', label:{fr:'Automatisations Make',en:'Make Automations'}, sub:{fr:'5 scénarios · 600+ exec.',en:'5 scenarios · 600+ exec.'}, build:buildMake },
   plan90:      { icon:'📅', label:{fr:'Plan 90 jours',en:'90-day plan'}, sub:{fr:'Comprendre · Livrer · Structurer',en:'Understand · Ship · Structure'}, build:buildPlan90 },
+  failures:    { icon:'💡', label:{fr:'Ce qui n\'a pas marché',en:'What didn\'t work'}, sub:{fr:'Feedcasse · Carnetto · leçons',en:'Feedcasse · Carnetto · lessons'}, build:buildFailures },
 };
 
 /* ── VISITED NAV ── */
@@ -886,8 +950,7 @@ function addBotMsg(text, panelType) {
   el.appendChild(content);
   document.getElementById('messages').appendChild(el);
 
-  if (text && text.length > 20) addFollowupChips(content);
-
+  if (text && text.length > 20) addFollowupChips(content, panelType);
   msgCount++;
   if (msgCount > 0 && msgCount % 4 === 0 && !document.querySelector('.contact-cta')) {
     setTimeout(() => addContactCTA(), 500);
@@ -912,15 +975,39 @@ function addContactCTA() {
   scroll();
 }
 
+function addResponseTime(elapsed) {
+  const msgs = document.getElementById('messages');
+  const lastRow = msgs.querySelector('.msg-row.bot:last-of-type');
+  if (!lastRow) return;
+  const tag = document.createElement('div');
+  tag.className = 'response-time';
+  tag.textContent = (lang === 'fr' ? 'répondu en ' : 'answered in ') + elapsed + 's';
+  lastRow.appendChild(tag);
+}
+
 function addTyping() {
   const el = document.createElement('div');
   el.className = 'msg-row bot'; el.id = 'typing';
-  el.innerHTML = `<div class="msg-avatar">EM</div><div class="msg-content"><div class="msg-bubble"><div class="typing-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div></div>`;
+
+  const phrases = lang === 'fr'
+    ? ['Analyse...', 'Cherche dans le profil...', 'Formule...', 'Réfléchit...', 'Construit la réponse...']
+    : ['Analysing...', 'Searching the profile...', 'Formulating...', 'Thinking...', 'Building the answer...'];
+
+  el.innerHTML = `<div class="msg-avatar">EM</div><div class="msg-content"><div class="msg-bubble"><span class="typing-label" id="typingLabel">${phrases[0]}</span></div></div>`;
   document.getElementById('messages').appendChild(el);
   scroll();
+
+  let i = 1;
+  el._phraseInterval = setInterval(() => {
+    const lbl = document.getElementById('typingLabel');
+    if (lbl) { lbl.style.opacity = '0'; setTimeout(() => { lbl.textContent = phrases[i % phrases.length]; lbl.style.opacity = '1'; i++; }, 180); }
+  }, 900);
 }
 
-function removeTyping() { document.getElementById('typing')?.remove(); }
+function removeTyping() {
+  const el = document.getElementById('typing');
+  if (el) { clearInterval(el._phraseInterval); el.remove(); }
+}
 function adjustMessagesPadding() {
   const iz = document.getElementById('inputZone');
   const msgs = document.getElementById('messages');
@@ -991,6 +1078,7 @@ async function send() {
   addUserMsg(text);
   history.push({role:'user',content:text});
   addTyping();
+  const t0 = Date.now();
 
   try {
     const res = await fetch('/api/chat', {
@@ -1001,6 +1089,7 @@ async function send() {
     removeTyping();
     if (!res.ok) throw new Error();
     const data = await res.json();
+    const elapsed = ((Date.now() - t0) / 1000).toFixed(1);
     let reply = data.content?.[0]?.text || '';
     let panelType=null, displayText=reply;
 
@@ -1021,9 +1110,10 @@ async function send() {
 
     history.push({role:'assistant',content:reply});
     if (displayText && !panelType) {
-      typewriterMsg(displayText, null, null);
+      typewriterMsg(displayText, null, () => addResponseTime(elapsed));
     } else {
       addBotMsg(displayText, panelType);
+      addResponseTime(elapsed);
     }
   } catch(e) {
     removeTyping();
