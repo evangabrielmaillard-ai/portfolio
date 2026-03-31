@@ -1,31 +1,34 @@
-import fs from 'node:fs';
-import path from 'node:path';
+import { readFileSync } from 'fs';
+import { join } from 'path';
 
-let cachedSystemPrompt = null;
+// Rate limiting — serveur side
+const rateLimit = new Map();
 
+function checkRateLimit(ip) {
+  const now = Date.now();
+  const windowMs = 60 * 60 * 1000;
+  const maxRequests = 20;
+  const entry = rateLimit.get(ip) || { count: 0, resetAt: now + windowMs };
+  if (now > entry.resetAt) { entry.count = 0; entry.resetAt = now + windowMs; }
+  entry.count++;
+  rateLimit.set(ip, entry);
+  if (rateLimit.size > 1000) {
+    for (const [key, val] of rateLimit.entries()) {
+      if (now > val.resetAt) rateLimit.delete(key);
+    }
+  }
+  return entry.count <= maxRequests;
+}
+
+// Lecture du system prompt depuis le fichier
 function getSystemPrompt() {
-  if (cachedSystemPrompt) return cachedSystemPrompt;
-
-  const envPrompt = process.env.SYSTEM_PROMPT?.trim();
-  if (envPrompt) {
-    cachedSystemPrompt = envPrompt;
-    return cachedSystemPrompt;
+  try {
+    const filePath = join(process.cwd(), 'system_prompt.txt');
+    return readFileSync(filePath, 'utf-8').trim();
+  } catch (e) {
+    console.error('[chat] system_prompt.txt introuvable:', e.message);
+    return null;
   }
-
-  const filePath = path.join(process.cwd(), 'prompts', 'system-prompt.txt');
-
-  if (!fs.existsSync(filePath)) {
-    throw new Error(`System prompt introuvable : ${filePath}`);
-  }
-
-  const filePrompt = fs.readFileSync(filePath, 'utf8').trim();
-
-  if (!filePrompt) {
-    throw new Error('Le fichier system-prompt.txt est vide.');
-  }
-
-  cachedSystemPrompt = filePrompt;
-  return cachedSystemPrompt;
 }
 
 export default async function handler(req, res) {
@@ -33,29 +36,35 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { messages } = req.body;
+  const ip = req.headers['x-forwarded-for']?.split(',')[0]?.trim() || req.socket?.remoteAddress || 'unknown';
+  if (!checkRateLimit(ip)) {
+    return res.status(429).json({ error: 'Rate limit atteint. Réessayez dans une heure.' });
+  }
 
-  if (!messages || !Array.isArray(messages)) {
-    return res.status(400).json({ error: 'Invalid messages' });
+  const { messages } = req.body;
+  if (!messages || !Array.isArray(messages)) return res.status(400).json({ error: 'Payload invalide.' });
+  if (messages.length > 20) return res.status(400).json({ error: 'Payload invalide.' });
+  for (const msg of messages) {
+    if (typeof msg.role !== 'string' || typeof msg.content !== 'string') return res.status(400).json({ error: 'Payload invalide.' });
+    if (!['user', 'assistant'].includes(msg.role)) return res.status(400).json({ error: 'Payload invalide.' });
+    if (msg.content.length > 4000) return res.status(400).json({ error: 'Payload invalide.' });
   }
 
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
-    return res.status(200).json({
-      content: [{ text: 'DEBUG: Clé API manquante — variable ANTHROPIC_API_KEY non trouvée.' }]
-    });
+    console.error('[chat] ANTHROPIC_API_KEY manquante');
+    return res.status(503).json({ error: 'Service temporairement indisponible.' });
   }
 
-  let systemPrompt = '';
-  try {
-    systemPrompt = getSystemPrompt();
-  } catch (error) {
-    return res.status(200).json({
-      content: [{ text: `DEBUG: ${error.message}` }]
-    });
+  const systemPrompt = getSystemPrompt();
+  if (!systemPrompt) {
+    return res.status(503).json({ error: 'Service temporairement indisponible.' });
   }
 
   try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 15000);
+
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
@@ -69,21 +78,25 @@ export default async function handler(req, res) {
         system: systemPrompt,
         messages: messages,
       }),
+      signal: controller.signal,
     });
 
+    clearTimeout(timeout);
     const data = await response.json();
 
     if (!response.ok) {
-      return res.status(200).json({
-        content: [{ text: 'DEBUG erreur Anthropic ' + response.status + ' : ' + JSON.stringify(data) }]
-      });
+      console.error('[chat] Erreur Anthropic', response.status, data?.error?.type);
+      return res.status(502).json({ error: 'Erreur de service. Réessayez.' });
     }
 
     return res.status(200).json(data);
 
   } catch (error) {
-    return res.status(200).json({
-      content: [{ text: 'DEBUG exception : ' + error.message }]
-    });
+    if (error.name === 'AbortError') {
+      console.error('[chat] Timeout');
+      return res.status(504).json({ error: 'Délai dépassé. Réessayez.' });
+    }
+    console.error('[chat] Exception', error.message);
+    return res.status(500).json({ error: 'Erreur inattendue. Réessayez.' });
   }
 }
