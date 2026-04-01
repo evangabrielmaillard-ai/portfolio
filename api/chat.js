@@ -1,9 +1,5 @@
-import { readFileSync } from 'fs';
-import { join, dirname } from 'path';
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const fs = require('fs');
+const path = require('path');
 
 // Rate limiting — serveur side
 const rateLimit = new Map();
@@ -24,32 +20,33 @@ function checkRateLimit(ip) {
   return entry.count <= maxRequests;
 }
 
-// Lecture du system prompt — relatif à ce fichier (api/ → ../system_prompt.txt)
+// Lecture du system prompt — essai de plusieurs chemins
 let _cachedPrompt = null;
 function getSystemPrompt() {
   if (_cachedPrompt) return _cachedPrompt;
-  const paths = [
-    join(__dirname, '..', 'system_prompt.txt'),
-    join(process.cwd(), 'system_prompt.txt'),
+  const candidates = [
+    path.join(process.cwd(), 'system-prompt.txt'),
+    path.join(process.cwd(), 'system_prompt.txt'),
+    path.join(__dirname, '..', 'system-prompt.txt'),
+    path.join(__dirname, '..', 'system_prompt.txt'),
+    '/var/task/system-prompt.txt',
     '/var/task/system_prompt.txt',
   ];
-  for (const filePath of paths) {
+  for (const filePath of candidates) {
     try {
-      const content = readFileSync(filePath, 'utf-8').trim();
+      const content = fs.readFileSync(filePath, 'utf-8').trim();
       if (content) {
-        console.log('[chat] system_prompt.txt chargé depuis:', filePath);
+        console.log('[chat] prompt chargé depuis:', filePath);
         _cachedPrompt = content;
         return content;
       }
-    } catch (e) {
-      // Essai suivant
-    }
+    } catch (e) { /* essai suivant */ }
   }
-  console.error('[chat] system_prompt.txt introuvable dans tous les chemins essayés:', paths);
+  console.error('[chat] system prompt introuvable. Chemins essayés:', candidates);
   return null;
 }
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
@@ -117,4 +114,4 @@ export default async function handler(req, res) {
     console.error('[chat] Exception', error.message);
     return res.status(500).json({ error: 'Erreur inattendue. Réessayez.' });
   }
-}
+};
