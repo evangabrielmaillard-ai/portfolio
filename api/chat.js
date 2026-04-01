@@ -1,5 +1,9 @@
 import { readFileSync } from 'fs';
-import { join } from 'path';
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 // Rate limiting — serveur side
 const rateLimit = new Map();
@@ -20,15 +24,29 @@ function checkRateLimit(ip) {
   return entry.count <= maxRequests;
 }
 
-// Lecture du system prompt depuis le fichier
+// Lecture du system prompt — relatif à ce fichier (api/ → ../system_prompt.txt)
+let _cachedPrompt = null;
 function getSystemPrompt() {
-  try {
-    const filePath = join(process.cwd(), 'system_prompt.txt');
-    return readFileSync(filePath, 'utf-8').trim();
-  } catch (e) {
-    console.error('[chat] system_prompt.txt introuvable:', e.message);
-    return null;
+  if (_cachedPrompt) return _cachedPrompt;
+  const paths = [
+    join(__dirname, '..', 'system_prompt.txt'),
+    join(process.cwd(), 'system_prompt.txt'),
+    '/var/task/system_prompt.txt',
+  ];
+  for (const filePath of paths) {
+    try {
+      const content = readFileSync(filePath, 'utf-8').trim();
+      if (content) {
+        console.log('[chat] system_prompt.txt chargé depuis:', filePath);
+        _cachedPrompt = content;
+        return content;
+      }
+    } catch (e) {
+      // Essai suivant
+    }
   }
+  console.error('[chat] system_prompt.txt introuvable dans tous les chemins essayés:', paths);
+  return null;
 }
 
 export default async function handler(req, res) {
