@@ -19,11 +19,11 @@
 <link rel="canonical" href="https://www.evangabrielmaillard.com">
 <!--
   👋 Tu inspectes le code source.
-   Je ne l'aurais pas fait. 
+  C'est exactement ce qu'Evan aurait fait à ta place.
 
-  J'ai construit l'idée en une soirée + manitée avec Claude & GPT
+  Ce site a été construit en une soirée + une matinée.
   Zéro framework. Zéro ligne de code écrite manuellement.
-  Juste un système bien cadré et de l'itération (environ 60 à date) 
+  Juste un système bien cadré et de l'itération.
 
   Si tu cherches ce type de profil : linkedin.com/in/evan-gabriel-maillard
   Si tu es juste curieux : bienvenue dans le club.
@@ -428,6 +428,8 @@ header.scrolled .back-btn { display: flex; }
           <button class="chip" onclick="chipSend(this)" data-fr="Prospection B2B" data-en="B2B prospecting">Prospection B2B</button>
           <button class="chip" onclick="chipSend(this)" data-fr="Ton générateur d'images IA" data-en="Your AI image generator">Générateur d'images IA</button>
           <button class="chip" onclick="chipSend(this)" data-fr="Tes automatisations Make" data-en="Your Make automations">Automatisations Make</button>
+          <button class="chip" onclick="chipSend(this)" data-fr="Ton agent IA pour les offres" data-en="Your AI agent for quotes">Agent IA — Offres</button>
+          <button class="chip" onclick="chipSend(this)" data-fr="Ton architecture agents IA" data-en="Your AI agent architecture">Architecture agents</button>
           <button class="chip" onclick="chipSend(this)" data-fr="Tes scripts Python" data-en="Your Python scripts">Scripts Python</button>
           <button class="chip" onclick="chipSend(this)" data-fr="Ce qui n'a pas marché" data-en="What didn't work">Ce qui n'a pas marché</button>
         </div>
@@ -831,6 +833,85 @@ function buildFailures() {
   </div>`;
 }
 
+function buildOffres() {
+  return `<div style="display:flex;flex-direction:column;gap:8px;">
+    <div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:4px;">${lang==='fr'?'Automatisation des offres commerciales':'Commercial Quote Automation'}</div>
+    <div style="font-size:12px;color:var(--muted);line-height:1.7;margin-bottom:4px;">${lang==='fr'?'De l\'email non structuré à l\'affaire CRM complète — sans intervention humaine sur les cas standards.':'From unstructured email to complete CRM deal — no human intervention on standard cases.'}</div>
+
+    ${block(lang==='fr'?'Le problème initial':'The initial problem', lang==='fr'?'Chaque demande d\'offre arrivait par email, traitée manuellement : lecture, identification client, création CRM, ajout lignes produit, envoi. Risque d\'erreurs, pas de traçabilité homogène, impossible à scaler.':'Every quote request came by email, handled manually: read, identify client, create CRM entry, add product lines, send. Error-prone, no consistent traceability, impossible to scale.')}
+
+    <div style="padding:12px 14px;background:var(--subtle);border-radius:8px;border-left:3px solid var(--text);">
+      <div style="font-size:11px;font-weight:600;color:var(--text);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:8px;">${lang==='fr'?'L\'agent IA comme décideur':'The AI agent as decision-maker'}</div>
+      <div style="display:flex;flex-direction:column;gap:5px;">
+        <div style="font-size:12px;color:var(--text);line-height:1.65;">→ <strong>${lang==='fr'?'Comprendre':'Understand'}</strong> — ${lang==='fr'?'nettoyage de l\'email, suppression bruit (signatures, transferts internes, domaines exclus)':'email cleanup, noise removal (signatures, internal forwards, excluded domains)'}</div>
+        <div style="font-size:12px;color:var(--text);line-height:1.65;">→ <strong>${lang==='fr'?'Extraire':'Extract'}</strong> — ${lang==='fr'?'GPT-4 identifie : entreprise, contact, liste produits (items), quantités → JSON structuré':'GPT-4 identifies: company, contact, product list (items), quantities → structured JSON'}</div>
+        <div style="font-size:12px;color:var(--text);line-height:1.65;">→ <strong>${lang==='fr'?'Décider':'Decide'}</strong> — ${lang==='fr'?'organisation existante ou à créer ? Contact connu ou nouveau ? L\'IA route selon le contexte':'existing org or create? Known contact or new? AI routes based on context'}</div>
+        <div style="font-size:12px;color:var(--text);line-height:1.65;">→ <strong>${lang==='fr'?'Agir':'Act'}</strong> — ${lang==='fr'?'création du deal, injection des lignes produit via webhook, notification Teams pour validation':'deal creation, product line injection via webhook, Teams notification for validation'}</div>
+      </div>
+    </div>
+
+    ${block(lang==='fr'?'Pourquoi un webhook pour les lignes produit':'Why a webhook for product lines', lang==='fr'?'Externaliser les lignes produit de Make permet de garder le scénario lisible, d\'isoler la logique métier (tarifs, variantes, règles) et de gérer l\'idempotence — si le process est relancé, pas de doublons.':'Externalizing product lines from Make keeps the scenario readable, isolates business logic (prices, variants, rules) and handles idempotency — if the process reruns, no duplicates.')}
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;margin:4px 0;">
+      <div style="background:var(--subtle);border:1px solid var(--border);border-radius:8px;padding:9px;text-align:center;">
+        <div style="font-size:18px;font-weight:600;color:var(--text);font-family:var(--font-serif);">272</div>
+        <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.04em;margin-top:2px;">${lang==='fr'?'Offres traitées':'Quotes processed'}</div>
+      </div>
+      <div style="background:var(--text);border-radius:8px;padding:9px;text-align:center;">
+        <div style="font-size:18px;font-weight:600;color:var(--bg);font-family:var(--font-serif);">0</div>
+        <div style="font-size:10px;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:0.04em;margin-top:2px;">${lang==='fr'?'Saisies manuelles':'Manual entries'}</div>
+      </div>
+    </div>
+
+    ${block(lang==='fr'?'Ce que ça ouvre vraiment':'What this really unlocks', lang==='fr'?'Ce n\'est pas juste un gain de temps. Un flux email devient une base de données structurée : analysable, scorable, automatisable pour les relances. Le jugement humain reste sur les cas complexes — l\'IA filtre et structure le reste.':'It\'s not just a time saving. An email flow becomes a structured database: analysable, scorable, automatable for follow-ups. Human judgment stays on complex cases — AI filters and structures the rest.')}
+
+    <div style="padding:10px 12px;background:var(--subtle);border-radius:8px;border-left:2px solid var(--border);font-size:12px;color:var(--muted);line-height:1.65;">${lang==='fr'?'<span style="color:var(--text);font-weight:500;">Limite assumée :</span> le système reste dépendant de la qualité des emails entrants. Il ne remplace pas le jugement humain sur les demandes atypiques — il agit comme un filtre intelligent.':'<span style="color:var(--text);font-weight:500;">Known limit:</span> the system depends on input email quality. It doesn\'t replace human judgment on atypical requests — it acts as an intelligent filter.'}</div>
+  </div>`;
+}
+
+function buildAgents() {
+  return `<div style="display:flex;flex-direction:column;gap:8px;">
+    <div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:4px;">${lang==='fr'?'Architecture agents IA — Génération d\'offres':'AI Agent Architecture — Quote Generation'}</div>
+    <div style="font-size:12px;color:var(--muted);line-height:1.7;">${lang==='fr'?'Deux agents spécialisés remplacent une logique conditionnelle complexe par une logique décisionnelle.':'Two specialized agents replace complex conditional logic with decision-making logic.'}</div>
+
+    <div style="padding:10px 14px;background:var(--text);border-radius:8px;margin:2px 0;">
+      <div style="font-size:11px;font-weight:600;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px;">${lang==='fr'?'Principe fondateur':'Core principle'}</div>
+      <div style="font-size:12px;color:rgba(255,255,255,0.9);line-height:1.7;">${lang==='fr'?'IA = décision · Make = exécution. L\'IA ne génère pas — elle décide. Make n\'analyse pas — il exécute.':'AI = decision · Make = execution. AI doesn\'t generate — it decides. Make doesn\'t analyse — it executes.'}</div>
+    </div>
+
+    <div style="border-left:2px solid var(--border);padding:10px 14px;background:var(--subtle);border-radius:0 8px 8px 0;">
+      <div style="font-size:11px;font-weight:600;color:var(--text);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">Agent CRM</div>
+      <div style="font-size:12px;color:var(--muted);line-height:1.7;">${lang==='fr'?'Reçoit les données extraites de l\'email. Interroge Pipedrive. Décide : organisation existante ou à créer ? Contact connu ou nouveau ? Retourne un JSON prêt à l\'emploi — Make exécute sans réfléchir.':'Receives data extracted from the email. Queries Pipedrive. Decides: existing org or create? Known contact or new? Returns a ready-to-use JSON — Make executes without thinking.'}</div>
+    </div>
+
+    <div style="border-left:2px solid var(--border);padding:10px 14px;background:var(--subtle);border-radius:0 8px 8px 0;">
+      <div style="font-size:11px;font-weight:600;color:var(--text);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">Agent Produit</div>
+      <div style="font-size:12px;color:var(--muted);line-height:1.7;">${lang==='fr'?'Reçoit une référence brute (souvent mal formatée). Applique la règle métier (9 caractères). Interroge 3 sources : base tarif Google Sheets, base URL produit, catalogue Pipedrive. Gère les ambiguïtés avec fallback. Retourne une ligne produit complète.':'Receives a raw reference (often poorly formatted). Applies business rule (9 characters). Queries 3 sources: Google Sheets price base, product URL base, Pipedrive catalogue. Handles ambiguities with fallback. Returns a complete product line.'}</div>
+    </div>
+
+    ${block(lang==='fr'?'Le problème de l\'agrégation multi-produits':'The multi-product aggregation problem', lang==='fr'?'Une demande peut contenir N lignes produit. Make traite par bundle — il faut agréger N résultats en 1 seule structure avant de créer le deal. Array Aggregator + JSON strict côté agent = deal propre, peu importe le volume.':'A request can contain N product lines. Make processes by bundle — N results must be aggregated into 1 structure before creating the deal. Array Aggregator + strict JSON from the agent = clean deal, regardless of volume.')}
+
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;margin:4px 0;">
+      <div style="background:var(--subtle);border:1px solid var(--border);border-radius:8px;padding:9px;text-align:center;">
+        <div style="font-size:16px;font-weight:600;color:var(--text);font-family:var(--font-serif);">3</div>
+        <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.04em;margin-top:2px;">${lang==='fr'?'Sources interrogées':'Sources queried'}</div>
+      </div>
+      <div style="background:var(--subtle);border:1px solid var(--border);border-radius:8px;padding:9px;text-align:center;">
+        <div style="font-size:16px;font-weight:600;color:var(--text);font-family:var(--font-serif);">2</div>
+        <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.04em;margin-top:2px;">${lang==='fr'?'Agents spécialisés':'Specialized agents'}</div>
+      </div>
+      <div style="background:var(--text);border-radius:8px;padding:9px;text-align:center;">
+        <div style="font-size:16px;font-weight:600;color:var(--bg);font-family:var(--font-serif);">0</div>
+        <div style="font-size:10px;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:0.04em;margin-top:2px;">${lang==='fr'?'Saisies manuelles':'Manual entries'}</div>
+      </div>
+    </div>
+
+    ${block(lang==='fr'?'Ce que ça démontre':'What this demonstrates', lang==='fr'?'Concevoir une architecture où l\'IA est encadrée (JSON strict, agents spécialisés, fallback explicite) plutôt que libre. Comprendre les limites de l\'IA et les compenser par du design — pas par de la confiance aveugle.':'Designing an architecture where AI is constrained (strict JSON, specialized agents, explicit fallback) rather than free. Understanding AI limits and compensating through design — not blind trust.')}
+
+    <div style="padding:10px 12px;background:var(--subtle);border-radius:8px;border-left:2px solid var(--border);font-size:12px;color:var(--muted);line-height:1.65;">${lang==='fr'?'<span style="color:var(--text);font-weight:500;">Limite assumée :</span> références clients souvent incohérentes. L\'agent Produit gère les cas ambigus mais ne peut pas tout résoudre — les cas vraiment atypiques remontent pour revue humaine.':'<span style="color:var(--text);font-weight:500;">Known limit:</span> client references are often inconsistent. The Product agent handles ambiguous cases but can\'t resolve everything — truly atypical cases escalate for human review.'}</div>
+  </div>`;
+}
+
 /* ── PANELS REGISTRY ── */
 const PANELS = {
   projects:    { icon:'🚀', label:{fr:'Side projects',en:'Side projects'}, sub:{fr:'5 projets',en:'5 projects'}, build:buildProjects },
@@ -845,6 +926,8 @@ const PANELS = {
   imagegen:    { icon:'🖼️', label:{fr:'Générateur d\'images IA',en:'AI Image Generator'}, sub:{fr:'176 refs · 21h économisées',en:'176 refs · 21h saved'}, build:buildImageGen },
   python:      { icon:'🐍', label:{fr:'Scripts Python métier',en:'Python Business Tools'}, sub:{fr:'19 outils · GUI native',en:'19 tools · native GUI'}, build:buildPython },
   make:        { icon:'⚙️', label:{fr:'Automatisations Make',en:'Make Automations'}, sub:{fr:'5 scénarios · 600+ exec.',en:'5 scenarios · 600+ exec.'}, build:buildMake },
+  offres:      { icon:'🤖', label:{fr:'Agent IA — Offres commerciales',en:'AI Agent — Quote processing'}, sub:{fr:'Email → CRM · 272 offres · 0 saisies',en:'Email → CRM · 272 quotes · 0 entries'}, build:buildOffres },
+  agents:      { icon:'🧩', label:{fr:'Architecture agents IA',en:'AI Agent Architecture'}, sub:{fr:'IA = décision · Make = exécution',en:'AI = decision · Make = execution'}, build:buildAgents },
   plan90:      { icon:'📅', label:{fr:'Plan 90 jours',en:'90-day plan'}, sub:{fr:'Comprendre · Livrer · Structurer',en:'Understand · Ship · Structure'}, build:buildPlan90 },
   failures:    { icon:'💡', label:{fr:'Ce qui n\'a pas marché',en:'What didn\'t work'}, sub:{fr:'Feedcasse · Carnetto · leçons',en:'Feedcasse · Carnetto · lessons'}, build:buildFailures },
 };
