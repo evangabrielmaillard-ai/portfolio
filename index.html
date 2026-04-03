@@ -106,6 +106,33 @@ header.scrolled .back-btn { display: flex; }
 .li-btn:hover { color: var(--text); }
 .li-btn svg { width: 13px; height: 13px; fill: currentColor; }
 
+.mail-btn { background: none; border: 1px solid var(--border); border-radius: 6px; width: 28px; height: 24px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--muted); transition: all 0.12s; }
+.mail-btn:hover { border-color: var(--text); color: var(--text); }
+.mail-btn svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 1.8; }
+
+/* MODAL */
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 200; display: flex; align-items: center; justify-content: center; padding: 1.5rem; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
+.modal-overlay.open { opacity: 1; pointer-events: all; }
+.modal-box { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 24px; max-width: 380px; width: 100%; box-shadow: 0 8px 40px rgba(0,0,0,0.12); transform: translateY(12px); transition: transform 0.2s; }
+.modal-overlay.open .modal-box { transform: translateY(0); }
+.modal-title { font-family: var(--font-serif); font-size: 18px; letter-spacing: -0.02em; font-weight: 600; margin-bottom: 6px; }
+.modal-sub { font-size: 12px; color: var(--muted); line-height: 1.6; margin-bottom: 20px; }
+.modal-challenge { background: var(--subtle); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; margin-bottom: 16px; }
+.modal-challenge-label { font-size: 11px; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 8px; }
+.modal-challenge-q { font-size: 14px; color: var(--text); line-height: 1.5; margin-bottom: 10px; }
+.modal-challenge-opts { display: flex; flex-direction: column; gap: 6px; }
+.modal-opt { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 8px 12px; font-size: 13px; font-family: var(--font-sans); color: var(--text); cursor: pointer; text-align: left; transition: all 0.12s; }
+.modal-opt:hover { border-color: var(--text); background: var(--subtle); }
+.modal-opt.wrong { border-color: #EF4444; color: #EF4444; animation: shake 0.3s ease; }
+.modal-opt.correct { border-color: var(--text); background: var(--text); color: var(--bg); }
+@keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-6px)} 75%{transform:translateX(6px)} }
+.modal-email-reveal { display: none; margin-top: 4px; }
+.modal-email-reveal.visible { display: block; }
+.modal-email-link { display: flex; align-items: center; gap: 8px; background: var(--text); border-radius: 10px; padding: 12px 16px; text-decoration: none; color: var(--bg); font-size: 13px; font-weight: 500; transition: opacity 0.12s; }
+.modal-email-link:hover { opacity: 0.85; }
+.modal-close { margin-top: 14px; width: 100%; background: none; border: 1px solid var(--border); border-radius: 8px; padding: 8px; font-size: 12px; font-family: var(--font-sans); color: var(--muted); cursor: pointer; transition: all 0.12s; }
+.modal-close:hover { border-color: var(--text); color: var(--text); }
+
 /* APP */
 .app { height: 100vh; display: flex; flex-direction: column; max-width: 720px; margin: 0 auto; position: relative; }
 
@@ -273,6 +300,8 @@ header.scrolled .back-btn { display: flex; }
 .site-footer { text-align: center; padding: 1.5rem 1.5rem 7rem; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; gap: 8px; }
 .site-footer.chat-active { display: none; }
 .footer-updated { font-size: 10px; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; opacity: 0.6; }
+.footer-counter { font-size: 10px; color: var(--muted); letter-spacing: 0.04em; opacity: 0.5; }
+.footer-counter span { font-variant-numeric: tabular-nums; }
 .footer-github { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted); text-decoration: none; transition: color 0.12s; letter-spacing: 0.01em; }
 .footer-github:hover { color: var(--text); }
 .footer-github svg { flex-shrink: 0; opacity: 0.6; }
@@ -358,6 +387,9 @@ header.scrolled .back-btn { display: flex; }
       <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
       <span>LinkedIn</span>
     </a>
+    <button class="mail-btn" onclick="openMailModal()" title="Contacter Evan">
+      <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
+    </button>
   </div>
 </header>
 
@@ -372,6 +404,7 @@ header.scrolled .back-btn { display: flex; }
   <div class="messages" id="messages"></div>
   <footer class="site-footer">
     <div class="footer-updated" id="footerUpdated">Dernière mise à jour du portfolio</div>
+    <div class="footer-counter" id="footerCounter"></div>
     <a href="https://github.com/evangabrielmaillard-ai/portfolio-as-a-conversation" target="_blank" class="footer-github">
       <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
       <span id="footerLabel">Projet disponible en open source sur mon GitHub</span>
@@ -438,7 +471,120 @@ header.scrolled .back-btn { display: flex; }
   </div>
 </div>
 
+<div class="modal-overlay" id="mailModal" onclick="handleModalOverlayClick(event)">
+  <div class="modal-box">
+    <div class="modal-title" id="modalTitle">Contacter Evan</div>
+    <div class="modal-sub" id="modalSub">Une petite question avant — histoire de filtrer les robots.</div>
+    <div class="modal-challenge" id="modalChallenge">
+      <div class="modal-challenge-label" id="challengeLabel">Question</div>
+      <div class="modal-challenge-q" id="challengeQ"></div>
+      <div class="modal-challenge-opts" id="challengeOpts"></div>
+    </div>
+    <div class="modal-email-reveal" id="emailReveal">
+      <a class="modal-email-link" href="mailto:evangabriel.maillard@gmail.com">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
+        evangabriel.maillard@gmail.com
+      </a>
+    </div>
+    <button class="modal-close" onclick="closeMailModal()" id="modalCloseBtn">Fermer</button>
+  </div>
+</div>
+
 <script>
+/* ── MAIL MODAL ── */
+const CHALLENGES = [
+  {
+    q: { fr: "Quel outil j'utilise pour orchestrer mes automatisations ?", en: "Which tool do I use to orchestrate my automations?" },
+    opts: { fr: ['Zapier', 'Make', 'n8n', 'Power Automate'], en: ['Zapier', 'Make', 'n8n', 'Power Automate'] },
+    answer: 'Make'
+  },
+  {
+    q: { fr: "En combien de temps j'ai construit ce portfolio ?", en: "How long did it take me to build this portfolio?" },
+    opts: { fr: ['1 semaine', '3 jours', 'Une soirée + une matinée', '1 mois'], en: ['1 week', '3 days', 'One evening + one morning', '1 month'] },
+    answer: { fr: 'Une soirée + une matinée', en: 'One evening + one morning' }
+  },
+  {
+    q: { fr: "Combien de références j'ai traitées avec le générateur d'images IA ?", en: "How many references did I process with the AI image generator?" },
+    opts: { fr: ['50', '176', '300', '528'], en: ['50', '176', '300', '528'] },
+    answer: '176'
+  },
+  {
+    q: { fr: "Quel CRM j'utilise au quotidien ?", en: "Which CRM do I use daily?" },
+    opts: { fr: ['HubSpot', 'Salesforce', 'Pipedrive', 'Notion'], en: ['HubSpot', 'Salesforce', 'Pipedrive', 'Notion'] },
+    answer: 'Pipedrive'
+  },
+  {
+    q: { fr: "Quel est mon taux d'ouverture en prospection B2B ?", en: "What's my B2B prospecting open rate?" },
+    opts: { fr: ['22%', '31.5%', '43.5%', '67%'], en: ['22%', '31.5%', '43.5%', '67%'] },
+    answer: '43.5%'
+  },
+];
+
+let _currentChallenge = null;
+
+function openMailModal() {
+  const modal = document.getElementById('mailModal');
+  const challenge = CHALLENGES[Math.floor(Math.random() * CHALLENGES.length)];
+  _currentChallenge = challenge;
+  document.getElementById('emailReveal').classList.remove('visible');
+  document.getElementById('modalTitle').textContent = lang === 'fr' ? 'Contacter Evan' : 'Contact Evan';
+  document.getElementById('modalSub').textContent = lang === 'fr'
+    ? 'Une petite question avant — histoire de filtrer les robots.'
+    : 'A quick question first — just to filter out the bots.';
+  document.getElementById('challengeLabel').textContent = lang === 'fr' ? 'Question' : 'Question';
+  document.getElementById('challengeQ').textContent = lang === 'fr' ? challenge.q.fr : challenge.q.en;
+  document.getElementById('modalCloseBtn').textContent = lang === 'fr' ? 'Fermer' : 'Close';
+  const opts = lang === 'fr' ? challenge.opts.fr : challenge.opts.en;
+  const answer = typeof challenge.answer === 'object' ? challenge.answer[lang] : challenge.answer;
+  const optsEl = document.getElementById('challengeOpts');
+  optsEl.innerHTML = '';
+  opts.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'modal-opt';
+    btn.textContent = opt;
+    btn.onclick = () => checkAnswer(btn, opt, answer);
+    optsEl.appendChild(btn);
+  });
+  modal.classList.add('open');
+}
+
+function checkAnswer(btn, selected, answer) {
+  const allOpts = document.querySelectorAll('.modal-opt');
+  allOpts.forEach(b => b.disabled = true);
+  if (selected === answer) {
+    btn.classList.add('correct');
+    setTimeout(() => {
+      document.getElementById('modalChallenge').style.display = 'none';
+      document.getElementById('emailReveal').classList.add('visible');
+      document.getElementById('modalSub').textContent = lang === 'fr'
+        ? '✓ Bonne réponse. Voici l\'adresse email.'
+        : '✓ Correct. Here\'s the email address.';
+    }, 400);
+  } else {
+    btn.classList.add('wrong');
+    setTimeout(() => {
+      btn.classList.remove('wrong');
+      allOpts.forEach(b => b.disabled = false);
+    }, 700);
+  }
+}
+
+function closeMailModal() {
+  document.getElementById('mailModal').classList.remove('open');
+  setTimeout(() => {
+    document.getElementById('modalChallenge').style.display = '';
+    document.getElementById('emailReveal').classList.remove('visible');
+    document.querySelectorAll('.modal-opt').forEach(b => {
+      b.classList.remove('correct', 'wrong');
+      b.disabled = false;
+    });
+  }, 250);
+}
+
+function handleModalOverlayClick(e) {
+  if (e.target === document.getElementById('mailModal')) closeMailModal();
+}
+
 /* ── DATA ── */
 const DATA = {
   projects: [
@@ -1213,6 +1359,16 @@ window.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => typewrite(document.getElementById('tagline'), tag), 600);
   hydrateFooterDate();
   adjustMessagesPadding();
+
+  // Charger le compteur de prompts
+  fetch('/api/stats').then(r => r.json()).then(data => {
+    const el = document.getElementById('footerCounter');
+    if (el && data.count > 0) {
+      el.innerHTML = lang === 'fr'
+        ? `<span>${data.count.toLocaleString('fr-FR')}</span> questions posées sur ce portfolio`
+        : `<span>${data.count.toLocaleString('en-US')}</span> questions asked on this portfolio`;
+    }
+  }).catch(() => {});
 
   // Titre d'onglet dynamique
   const titleDefault = document.title;
