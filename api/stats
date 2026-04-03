@@ -1,0 +1,11 @@
+const { kv } = require('@vercel/kv');
+
+module.exports = async function handler(req, res) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  try {
+    const count = await kv.get('prompt_count') || 0;
+    return res.status(200).json({ count: Number(count) });
+  } catch (e) {
+    return res.status(200).json({ count: 0 });
+  }
+};
