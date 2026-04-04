@@ -302,6 +302,9 @@ header.scrolled .back-btn { display: flex; }
 .footer-updated { font-size: 10px; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; opacity: 0.6; }
 .footer-counter { font-size: 10px; color: var(--muted); letter-spacing: 0.04em; opacity: 0.5; }
 .footer-counter span { font-variant-numeric: tabular-nums; }
+.header-counter { font-size: 10px; color: var(--muted); letter-spacing: 0.03em; opacity: 0.6; display: none; align-items: center; gap: 4px; }
+.header-counter.visible { display: flex; }
+.header-counter span { font-variant-numeric: tabular-nums; font-weight: 500; color: var(--text); }
 .footer-github { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted); text-decoration: none; transition: color 0.12s; letter-spacing: 0.01em; }
 .footer-github:hover { color: var(--text); }
 .footer-github svg { flex-shrink: 0; opacity: 0.6; }
@@ -379,6 +382,9 @@ header.scrolled .back-btn { display: flex; }
   </div>
   <div class="header-right">
     <button class="theme-btn" onclick="toggleTheme()" id="themeBtn" title="Mode sombre">☀️</button>
+    <div class="header-counter" id="headerCounter">
+      <span id="headerCountVal">0</span>&nbsp;<span id="headerCountLabel">questions</span>
+    </div>
     <div class="lang-toggle">
       <button class="lang-btn active" onclick="setLang('fr')">FR</button>
       <button class="lang-btn" onclick="setLang('en')">EN</button>
@@ -1351,6 +1357,7 @@ async function send() {
 
   busy=false;
   document.getElementById('sendBtn').disabled=false;
+  setTimeout(loadCounter, 1500); // Rafraîchir le compteur après la réponse
 }
 
 /* ── INIT ── */
@@ -1361,14 +1368,28 @@ window.addEventListener('DOMContentLoaded', () => {
   adjustMessagesPadding();
 
   // Charger le compteur de prompts
-  fetch('/api/stats').then(r => r.json()).then(data => {
-    const el = document.getElementById('footerCounter');
-    if (el && data.count > 0) {
-      el.innerHTML = lang === 'fr'
-        ? `<span>${data.count.toLocaleString('fr-FR')}</span> questions posées sur ce portfolio`
-        : `<span>${data.count.toLocaleString('en-US')}</span> questions asked on this portfolio`;
-    }
-  }).catch(() => {});
+  function loadCounter() {
+    fetch('/api/stats').then(r => r.json()).then(data => {
+      const count = data.count || 0;
+      // Footer
+      const footerEl = document.getElementById('footerCounter');
+      if (footerEl && count > 0) {
+        footerEl.innerHTML = lang === 'fr'
+          ? `<span>${count.toLocaleString('fr-FR')}</span> questions posées sur ce portfolio`
+          : `<span>${count.toLocaleString('en-US')}</span> questions asked on this portfolio`;
+      }
+      // Header — toujours visible si count > 0
+      const headerEl = document.getElementById('headerCounter');
+      const headerVal = document.getElementById('headerCountVal');
+      const headerLabel = document.getElementById('headerCountLabel');
+      if (headerEl && count > 0) {
+        headerVal.textContent = count.toLocaleString(lang === 'fr' ? 'fr-FR' : 'en-US');
+        headerLabel.textContent = lang === 'fr' ? 'questions' : 'questions';
+        headerEl.classList.add('visible');
+      }
+    }).catch(() => {});
+  }
+  loadCounter();
 
   // Titre d'onglet dynamique
   const titleDefault = document.title;
