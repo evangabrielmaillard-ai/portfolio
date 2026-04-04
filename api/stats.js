@@ -1,15 +1,17 @@
-const { Redis } = require('@upstash/redis');
-
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   try {
-    const redis = new Redis({
-      url: process.env.UPSTASH_REDIS_REST_URL,
-      token: process.env.UPSTASH_REDIS_REST_TOKEN,
+    const url = process.env.UPSTASH_REDIS_REST_URL;
+    const token = process.env.UPSTASH_REDIS_REST_TOKEN;
+    if (!url || !token) return res.status(200).json({ count: 0 });
+
+    const r = await fetch(`${url}/get/prompt_count`, {
+      headers: { Authorization: `Bearer ${token}` },
     });
-    const count = await redis.get('prompt_count') || 0;
-    return res.status(200).json({ count: Number(count) });
-  } catch (e) {
+    const data = await r.json();
+    const count = parseInt(data.result) || 0;
+    return res.status(200).json({ count });
+  } catch(e) {
     return res.status(200).json({ count: 0 });
   }
 };
