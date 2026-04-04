@@ -129,11 +129,11 @@ BonjourCyber : stack from scratch (CRM, Webflow, cold email, Meta/LinkedIn/Googl
 Erreurs fréquentes observées : CRM rempli mais jamais utilisé pour piloter, SEO sans intention de conversion, automation sans qualification en amont, IA utilisée pour générer du volume sans cadrage.
 Compétences : Make, Claude/GPT API, Python, Pipedrive, WordPress/WooCommerce/PrestaShop, Lemlist, Semrush, Meta/Google/LinkedIn Ads, Webflow, Lovable (Platine), SEO, automation, prompt engineering.`;
 
-// Upstash Redis — compteur de prompts (silencieux si absent)
+// Upstash Redis — compteur via API REST (variables Vercel KV_REST_API_URL / KV_REST_API_TOKEN)
 async function incrementCounter() {
   try {
-    const url = process.env.UPSTASH_REDIS_REST_URL;
-    const token = process.env.UPSTASH_REDIS_REST_TOKEN;
+    const url = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
+    const token = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
     if (!url || !token) return;
     await fetch(`${url}/incr/prompt_count`, {
       method: 'POST',
