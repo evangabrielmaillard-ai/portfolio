@@ -327,6 +327,8 @@ header.scrolled .back-btn { display: flex; }
   header { padding: 0 1rem; }
   .header-name { font-size: 15px; }
   .li-btn span { display: none; }
+  .header-counter { font-size: 9px; letter-spacing: 0.02em; }
+  .header-counter span { font-size: 10px; }
 
   /* Landing */
   .landing { padding: 0 1rem 160px; }
@@ -359,12 +361,20 @@ header.scrolled .back-btn { display: flex; }
 
   /* Recruiter banner */
   .recruiter-banner { font-size: 11px; padding: 6px 12px; }
+
+  /* Modal — slide depuis le bas sur mobile */
+  .modal-overlay { padding: 1rem; align-items: flex-end; }
+  .modal-box { max-width: 100%; border-radius: 12px 12px 0 0; padding: 20px 16px; }
+
+  /* Contact CTA */
+  .contact-cta { flex-direction: column; gap: 10px; text-align: center; }
 }
 
 @media (max-width: 380px) {
   .landing-name { font-size: 2.2rem; }
-  .header-right { gap: 6px; }
+  .header-right { gap: 5px; }
   .theme-btn { display: none; }
+  .header-counter { display: none !important; }
 }
 </style>
 </head>
