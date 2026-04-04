@@ -303,7 +303,7 @@ header.scrolled .back-btn { display: flex; }
 .footer-counter { font-size: 10px; color: var(--muted); letter-spacing: 0.04em; opacity: 0.5; }
 .footer-counter span { font-variant-numeric: tabular-nums; }
 .header-counter { font-size: 10px; color: var(--muted); letter-spacing: 0.03em; opacity: 0.6; display: none; align-items: center; gap: 4px; }
-.header-counter.visible { display: flex; }
+.header-counter.visible { display: none; } /* desktop: caché, footer visible */
 .header-counter span { font-variant-numeric: tabular-nums; font-weight: 500; color: var(--text); }
 .footer-github { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted); text-decoration: none; transition: color 0.12s; letter-spacing: 0.01em; }
 .footer-github:hover { color: var(--text); }
@@ -329,6 +329,8 @@ header.scrolled .back-btn { display: flex; }
   .li-btn span { display: none; }
   .header-counter { font-size: 9px; letter-spacing: 0.02em; }
   .header-counter span { font-size: 10px; }
+  .header-counter.visible { display: flex; } /* mobile: header counter visible */
+  .footer-counter { display: none; } /* mobile: footer counter caché */
 
   /* Landing */
   .landing { padding: 0 1rem 160px; }
