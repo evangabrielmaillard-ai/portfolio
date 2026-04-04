@@ -509,6 +509,27 @@ header.scrolled .back-btn { display: flex; }
 </div>
 
 <script>
+/* ── COUNTER ── */
+function loadCounter() {
+  fetch('/api/stats').then(r => r.json()).then(data => {
+    const count = data.count || 0;
+    const footerEl = document.getElementById('footerCounter');
+    if (footerEl && count > 0) {
+      footerEl.innerHTML = lang === 'fr'
+        ? `<span>${count.toLocaleString('fr-FR')}</span> questions posées sur ce portfolio`
+        : `<span>${count.toLocaleString('en-US')}</span> questions asked on this portfolio`;
+    }
+    const headerEl = document.getElementById('headerCounter');
+    const headerVal = document.getElementById('headerCountVal');
+    const headerLabel = document.getElementById('headerCountLabel');
+    if (headerEl && count > 0) {
+      headerVal.textContent = count.toLocaleString(lang === 'fr' ? 'fr-FR' : 'en-US');
+      headerLabel.textContent = lang === 'fr' ? 'questions' : 'questions';
+      headerEl.classList.add('visible');
+    }
+  }).catch(() => {});
+}
+
 /* ── MAIL MODAL ── */
 const CHALLENGES = [
   {
@@ -1379,28 +1400,7 @@ window.addEventListener('DOMContentLoaded', () => {
   hydrateFooterDate();
   adjustMessagesPadding();
 
-  // Charger le compteur de prompts
-  function loadCounter() {
-    fetch('/api/stats').then(r => r.json()).then(data => {
-      const count = data.count || 0;
-      // Footer
-      const footerEl = document.getElementById('footerCounter');
-      if (footerEl && count > 0) {
-        footerEl.innerHTML = lang === 'fr'
-          ? `<span>${count.toLocaleString('fr-FR')}</span> questions posées sur ce portfolio`
-          : `<span>${count.toLocaleString('en-US')}</span> questions asked on this portfolio`;
-      }
-      // Header — toujours visible si count > 0
-      const headerEl = document.getElementById('headerCounter');
-      const headerVal = document.getElementById('headerCountVal');
-      const headerLabel = document.getElementById('headerCountLabel');
-      if (headerEl && count > 0) {
-        headerVal.textContent = count.toLocaleString(lang === 'fr' ? 'fr-FR' : 'en-US');
-        headerLabel.textContent = lang === 'fr' ? 'questions' : 'questions';
-        headerEl.classList.add('visible');
-      }
-    }).catch(() => {});
-  }
+  // Charger le compteur — appel initial
   loadCounter();
 
   // Titre d'onglet dynamique
