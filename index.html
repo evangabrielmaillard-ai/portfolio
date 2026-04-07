@@ -302,9 +302,7 @@ header.scrolled .back-btn { display: flex; }
 .footer-updated { font-size: 10px; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; opacity: 0.6; }
 .footer-counter { font-size: 10px; color: var(--muted); letter-spacing: 0.04em; opacity: 0.5; }
 .footer-counter span { font-variant-numeric: tabular-nums; }
-.header-counter { font-size: 10px; color: var(--muted); letter-spacing: 0.03em; opacity: 0.6; display: none; align-items: center; gap: 4px; }
-.header-counter.visible { display: none; } /* desktop: caché, footer visible */
-.header-counter span { font-variant-numeric: tabular-nums; font-weight: 500; color: var(--text); }
+
 .footer-github { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted); text-decoration: none; transition: color 0.12s; letter-spacing: 0.01em; }
 .footer-github:hover { color: var(--text); }
 .footer-github svg { flex-shrink: 0; opacity: 0.6; }
@@ -327,10 +325,7 @@ header.scrolled .back-btn { display: flex; }
   header { padding: 0 1rem; }
   .header-name { font-size: 15px; }
   .li-btn span { display: none; }
-  .header-counter { font-size: 9px; letter-spacing: 0.02em; }
-  .header-counter span { font-size: 10px; }
-  .header-counter.visible { display: flex; } /* mobile: header counter visible */
-  .footer-counter { display: none; } /* mobile: footer counter caché */
+  .footer-counter { display: none; } /* mobile: footer caché, landing counter visible */
 
   /* Landing */
   .landing { padding: 0 1rem 160px; }
@@ -376,7 +371,6 @@ header.scrolled .back-btn { display: flex; }
   .landing-name { font-size: 2.2rem; }
   .header-right { gap: 5px; }
   .theme-btn { display: none; }
-  .header-counter { display: none !important; }
 }
 </style>
 </head>
@@ -394,9 +388,6 @@ header.scrolled .back-btn { display: flex; }
   </div>
   <div class="header-right">
     <button class="theme-btn" onclick="toggleTheme()" id="themeBtn" title="Mode sombre">☀️</button>
-    <div class="header-counter" id="headerCounter">
-      <span id="headerCountVal">0</span>&nbsp;<span id="headerCountLabel">questions</span>
-    </div>
     <div class="lang-toggle">
       <button class="lang-btn active" onclick="setLang('fr')">FR</button>
       <button class="lang-btn" onclick="setLang('en')">EN</button>
@@ -418,6 +409,7 @@ header.scrolled .back-btn { display: flex; }
     <h1 class="landing-name"><span class="word-evan">Evan</span><br><em class="word-maillard">Maillard</em></h1>
     <p class="landing-title" style="animation-fill-mode:both;">Digital Systems · Automation · AI</p>
     <p class="landing-tagline" id="tagline" style="opacity:0;animation:fadeUp 0.5s ease 0.9s both;"><span class="tagline-cursor"></span></p>
+  <div id="landingCounter" style="font-size:11px;color:var(--muted);opacity:0;letter-spacing:0.04em;margin-top:-1.5rem;animation:fadeUp 0.5s ease 1.2s both;"></div>
   </div>
   <div class="messages" id="messages"></div>
   <footer class="site-footer">
@@ -519,13 +511,9 @@ function loadCounter() {
         ? `<span>${count.toLocaleString('fr-FR')}</span> questions posées sur ce portfolio`
         : `<span>${count.toLocaleString('en-US')}</span> questions asked on this portfolio`;
     }
-    const headerEl = document.getElementById('headerCounter');
-    const headerVal = document.getElementById('headerCountVal');
-    const headerLabel = document.getElementById('headerCountLabel');
-    if (headerEl && count > 0) {
-      headerVal.textContent = count.toLocaleString(lang === 'fr' ? 'fr-FR' : 'en-US');
-      headerLabel.textContent = lang === 'fr' ? 'questions' : 'questions';
-      headerEl.classList.add('visible');
+    const landingEl = document.getElementById('landingCounter');
+    if (landingEl && count > 0) {
+      landingEl.textContent = count.toLocaleString(lang === 'fr' ? 'fr-FR' : 'en-US') + (lang === 'fr' ? ' questions posées' : ' questions asked');
     }
   }).catch(() => {});
 }
