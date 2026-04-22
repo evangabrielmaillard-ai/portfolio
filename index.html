@@ -1173,33 +1173,21 @@ function typewriterMsg(text, panelType, onDone) {
   content.className = 'msg-content';
   const b = document.createElement('div');
   b.className = 'msg-bubble';
-  b.innerHTML = '<p></p>';
+  const parsed = parseMarkdown(text);
+  b.innerHTML = '<p>' + parsed + '</p>';
   content.appendChild(b);
   el.innerHTML = `<div class="msg-avatar">EM</div>`;
   el.appendChild(content);
   document.getElementById('messages').appendChild(el);
   scroll();
 
-  const parsed = parseMarkdown(text);
-  let i = 0;
-  const para = b.querySelector('p');
-
-  function nextChar() {
-    if (i < parsed.length) {
-      para.textContent += parsed[i++];
-      scroll();
-      setTimeout(nextChar, 12);
-    } else {
-      if (text && text.length > 20) addFollowupChips(content);
-      msgCount++;
-      if (msgCount > 0 && msgCount % 4 === 0 && !document.querySelector('.contact-cta')) {
-        setTimeout(() => addContactCTA(), 500);
-      }
-      if (panelType) { content.appendChild(makePanel(panelType)); registerVisit(panelType); scroll(); }
-      if (onDone) onDone();
-    }
+  if (text && text.length > 20) addFollowupChips(content);
+  msgCount++;
+  if (msgCount > 0 && msgCount % 4 === 0 && !document.querySelector('.contact-cta')) {
+    setTimeout(() => addContactCTA(), 500);
   }
-  nextChar();
+  if (panelType) { content.appendChild(makePanel(panelType)); registerVisit(panelType); scroll(); }
+  if (onDone) onDone();
 }
 
 function addBotMsg(text, panelType) {
