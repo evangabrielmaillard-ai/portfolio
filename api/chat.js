@@ -184,11 +184,15 @@ module.exports = async function handler(req, res) {
   const { messages } = req.body;
   if (!messages || !Array.isArray(messages)) return res.status(400).json({ error: 'Payload invalide.' });
   if (messages.length > 20) return res.status(400).json({ error: 'Payload invalide.' });
+  let totalSize = 0;
   for (const msg of messages) {
     if (typeof msg.role !== 'string' || typeof msg.content !== 'string') return res.status(400).json({ error: 'Payload invalide.' });
     if (!['user', 'assistant'].includes(msg.role)) return res.status(400).json({ error: 'Payload invalide.' });
     if (msg.content.length > 4000) return res.status(400).json({ error: 'Payload invalide.' });
+    totalSize += msg.content.length;
   }
+  // Validation taille totale pour éviter context inflation attacks
+  if (totalSize > 20000) return res.status(400).json({ error: 'Payload invalide.' });
 
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) { console.error('[chat] ANTHROPIC_API_KEY manquante'); return res.status(503).json({ error: 'Service temporairement indisponible.' }); }
