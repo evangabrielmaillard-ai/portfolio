@@ -1085,6 +1085,51 @@ function buildAgents() {
   </div>`;
 }
 
+function buildMatcher() {
+  return `<div style="display:flex;flex-direction:column;gap:8px;">
+    <div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:4px;">${lang==='fr'?'Matcher Pipedrive × Lemlist — Attribution marketing':'Pipedrive × Lemlist Matcher — Marketing Attribution'}</div>
+    <div style="font-size:12px;color:var(--muted);line-height:1.7;margin-bottom:2px;">${lang==='fr'?'Deux outils sans identifiant commun. Impossible de savoir quelles campagnes de prospection ont généré des affaires CRM — sans traçage manuel chronophage.':'Two tools with no shared identifier. Impossible to know which prospecting campaigns generated CRM deals — without time-consuming manual tracking.'}</div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:2px 0;">
+      <div style="border:1px solid var(--border);border-radius:8px;padding:10px 12px;">
+        <div style="font-size:10px;font-weight:600;color:#EF4444;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px;">${lang==='fr'?'Problème':'Problem'}</div>
+        <div style="font-size:11px;color:var(--muted);line-height:1.7;">→ ${lang==='fr'?'Aucune clé commune entre les deux outils':'No shared key between both tools'}<br>→ ${lang==='fr'?'Traçage manuel : plusieurs heures/mois':'Manual tracking: several hours/month'}<br>→ ${lang==='fr'?'ROI des campagnes impossible à mesurer':'Campaign ROI impossible to measure'}<br>→ ${lang==='fr'?'Attribution perdue sur l'historique':'Attribution lost on historical data'}</div>
+      </div>
+      <div style="border:1px solid var(--border);border-radius:8px;padding:10px 12px;">
+        <div style="font-size:10px;font-weight:600;color:#22C55E;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px;">${lang==='fr'?'Solution':'Solution'}</div>
+        <div style="font-size:11px;color:var(--muted);line-height:1.7;">→ ${lang==='fr'?'Matching multi-signaux : email, domaine, société':'Multi-signal matching: email, domain, company'}<br>→ ${lang==='fr'?'Vérification temporelle (prospection avant affaire)':'Temporal check (prospecting before deal)'}<br>→ ${lang==='fr'?'Score de confiance 0–100 par paire':'Confidence score 0–100 per pair'}<br>→ ${lang==='fr'?'Vue groupée par affaire, export CSV':'Grouped view by deal, CSV export'}</div>
+      </div>
+    </div>
+
+    <div style="padding:10px 14px;background:var(--text);border-radius:8px;">
+      <div style="font-size:11px;font-weight:600;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px;">${lang==='fr'?'Ce qui a été construit':'What was built'}</div>
+      <div style="display:flex;flex-direction:column;gap:4px;">
+        <div style="font-size:12px;color:rgba(255,255,255,0.9);line-height:1.65;">→ ${lang==='fr'?'Parser CSV natif — zéro dépendance, détection auto UTF-8 / CP1252':'Native CSV parser — zero dependency, auto UTF-8 / CP1252 detection'}</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.9);line-height:1.65;">→ ${lang==='fr'?'Algorithme Levenshtein embarqué — normalisation noms de sociétés (stopwords métiers)':'Embedded Levenshtein algorithm — company name normalization (business stopwords)'}</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.9);line-height:1.65;">→ ${lang==='fr'?'Interface avec drawer de détail, tri multi-colonnes, overlay de progression':'Interface with detail drawer, multi-column sort, real-time progress overlay'}</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.9);line-height:1.65;">→ ${lang==='fr'?'1 seul fichier .html — double-clic, aucune installation, 100% local':'1 single .html file — double-click, no install, 100% local'}</div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;margin:2px 0;">
+      <div style="background:var(--subtle);border:1px solid var(--border);border-radius:8px;padding:9px;text-align:center;">
+        <div style="font-size:18px;font-weight:600;color:var(--text);font-family:var(--font-serif);">0</div>
+        <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.04em;margin-top:2px;">${lang==='fr'?'Install. requise':'Install required'}</div>
+      </div>
+      <div style="background:var(--subtle);border:1px solid var(--border);border-radius:8px;padding:9px;text-align:center;">
+        <div style="font-size:18px;font-weight:600;color:var(--text);font-family:var(--font-serif);">4</div>
+        <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.04em;margin-top:2px;">${lang==='fr'?'Itérations majeures':'Major iterations'}</div>
+      </div>
+      <div style="background:var(--text);border-radius:8px;padding:9px;text-align:center;">
+        <div style="font-size:18px;font-weight:600;color:var(--bg);font-family:var(--font-serif);">1</div>
+        <div style="font-size:10px;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:0.04em;margin-top:2px;">${lang==='fr'?'Fichier livrable':'Deliverable file'}</div>
+      </div>
+    </div>
+
+    <div style="padding:10px 12px;background:var(--subtle);border-radius:8px;border-left:2px solid var(--border);font-size:12px;color:var(--muted);line-height:1.65;">${lang==='fr'?'<span style="color:var(--text);font-weight:500;">Ce que ça démontre :</span> Identifier un angle mort dans un workflow commercial (attribution impossible), le formuler comme un problème technique (matching sans clé commune), livrer un outil utilisable le jour même — sans créer de dépendance infrastructure.':'<span style="color:var(--text);font-weight:500;">What this shows:</span> Identify a blind spot in a commercial workflow (impossible attribution), frame it as a technical problem (matching without shared key), deliver a usable tool the same day — without creating infrastructure dependency.'}</div>
+  </div>`;
+}
+
 /* ── PANELS REGISTRY ── */
 const PANELS = {
   projects:    { icon:'🚀', label:{fr:'Side projects',en:'Side projects'}, sub:{fr:'5 projets',en:'5 projects'}, build:buildProjects },
@@ -1101,6 +1146,7 @@ const PANELS = {
   make:        { icon:'⚙️', label:{fr:'Automatisations Make',en:'Make Automations'}, sub:{fr:'5 scénarios · 600+ exec.',en:'5 scenarios · 600+ exec.'}, build:buildMake },
   offres:      { icon:'🤖', label:{fr:'Agent IA — Offres commerciales',en:'AI Agent — Quote processing'}, sub:{fr:'Email → CRM · 272 offres · 0 saisies',en:'Email → CRM · 272 quotes · 0 entries'}, build:buildOffres },
   agents:      { icon:'🧩', label:{fr:'Architecture agents IA',en:'AI Agent Architecture'}, sub:{fr:'IA = décision · Make = exécution',en:'AI = decision · Make = execution'}, build:buildAgents },
+  matcher:     { icon:'🔗', label:{fr:'Matcher Pipedrive × Lemlist',en:'Pipedrive × Lemlist Matcher'}, sub:{fr:'Attribution marketing · 0 clé commune',en:'Marketing attribution · 0 shared key'}, build:buildMatcher },
   plan90:      { icon:'📅', label:{fr:'Plan 90 jours',en:'90-day plan'}, sub:{fr:'Comprendre · Livrer · Structurer',en:'Understand · Ship · Structure'}, build:buildPlan90 },
   failures:    { icon:'💡', label:{fr:'Ce qui n\'a pas marché',en:'What didn\'t work'}, sub:{fr:'Feedcasse · Carnetto · leçons',en:'Feedcasse · Carnetto · lessons'}, build:buildFailures },
 };
