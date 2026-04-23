@@ -114,6 +114,7 @@ PANNEAUX — JSON exact sans texte autour :
 - Échecs / ce qui n'a pas marché / Feedcasse / Carnetto / leçons → {"panel":"failures","intro":"Deux projets. Deux leçons différentes. Celle sur Carnetto est probablement la plus honnête."}
 - Agent IA / offres commerciales / email vers CRM / automatisation offres / traitement email / demande de prix / génération offre → {"panel":"offres","intro":"272 offres traitées. Zéro saisie manuelle. Un agent IA qui comprend, décide, et agit."}
 - Architecture agents / agent CRM / agent produit / IA décision / Make exécution / agents spécialisés / JSON strict / normalisation référence → {"panel":"agents","intro":"IA = décision. Make = exécution. Deux agents spécialisés, zéro logique conditionnelle."}
+- Matcher / attribution marketing / Pipedrive Lemlist / matching / scoring / outil interne / ROI campagne → {"panel":"matcher","intro":"Deux outils, zéro clé commune. Un matcher multi-signaux livré en un seul fichier .html — sans installation."}
 
 PROFIL & RÉALISATIONS :
 Prospection B2B : 4 191 contacts, 13 381 emails, 43.5% ouverture (2× moyenne B2B), 3.2% réponse, clustering sectoriel (aéro/défense, agroalimentaire, industrie lourde), icebreakers IA, triggers contextuels.
@@ -123,6 +124,7 @@ SEO : pipeline Make + Claude + WordPress actif, génération et publication auto
 Scripts Python : 19 outils (médias, données CEGID, SEO, qualité), interface Tkinter, aucune installation requise.
 Automatisations Make : 5 scénarios actifs, 600+ exécutions, connectant Pipedrive / GPT-4 / Teams / SMTP.
 Générateur images IA : gpt-image-1, 176 refs × 3 env = 528 images, 21h économisées, ~200$, contrôle qualité GPT-4o Vision.
+Matcher Pipedrive × Lemlist : outil d'attribution marketing construit pour résoudre l'absence de clé commune entre CRM et outil de prospection. Matching multi-signaux (email, domaine, société), algorithme Levenshtein embarqué, scoring de confiance 0–100, vérification temporelle. 1 fichier HTML autonome, 0 dépendance, 0 installation. 4 itérations majeures. Démontre : identifier un angle mort métier, le formuler en problème technique, livrer immédiatement.
 Agent IA offres commerciales : email non structuré → extraction IA → Agent CRM (résout org+contact, évite doublons) → Agent Produit (normalise référence 9 car., interroge 3 sources, gère fallback) → Array Aggregator → deal Pipedrive complet. 272 offres traitées, 0 saisies manuelles. Validation humaine Teams avant envoi client. Principe : IA cadrée JSON strict, pas de liberté non contrôlée.
 Carnetto : SaaS 3.99€/mois, ~100 licences, acquisition communautés Meta, badge Platine Lovable.
 BonjourCyber : stack from scratch (CRM, Webflow, cold email, Meta/LinkedIn/Google Ads).
