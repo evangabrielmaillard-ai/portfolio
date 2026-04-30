@@ -444,12 +444,8 @@ header.scrolled .back-btn { display: flex; }
     </div>
   </div>
   <div class="chips" id="chips">
-    <div class="chips-main">
-      <button class="chip chip-primary" onclick="chipSend(this)" data-fr="Explique-moi ce que tu fais" data-en="What do you do?">Explique-moi ce que tu fais</button>
-      <button class="chip chip-primary" onclick="chipSend(this)" data-fr="Montre-moi un système que tu as construit" data-en="Show me a system you built">Un exemple concret</button>
-      <button class="chip chip-primary" onclick="chipSend(this)" data-fr="Résumé rapide" data-en="Quick summary">Résumé rapide</button>
-      <button class="chip chip-primary" type="button" onclick="openImpactShortcut()">Impact business</button>
-      <button class="chip chip-primary" type="button" onclick="openPlan90Shortcut()">Plan 90 jours</button>
+    <div class="chips-main" id="chipsPrimary">
+      <!-- rempli dynamiquement par initChips() -->
       <button class="chip chip-more" id="chipsMoreBtn" onclick="toggleMoreChips()">+ Explorer →</button>
     </div>
     <div class="chips-more" id="chipsMore">
@@ -610,6 +606,82 @@ function closeMailModal() {
 
 function handleModalOverlayClick(e) {
   if (e.target === document.getElementById('mailModal')) closeMailModal();
+}
+
+/* ── CHIPS ROTATION ── */
+const CHIPS_POOL = {
+  fr: [
+    { label: 'Explique-moi ce que tu fais', msg: 'Explique-moi ce que tu fais' },
+    { label: 'Un exemple concret', msg: 'Montre-moi un système que tu as construit' },
+    { label: 'Résumé rapide', msg: 'Résumé rapide' },
+    { label: 'Impact business', fn: 'openImpactShortcut' },
+    { label: 'Plan 90 jours', fn: 'openPlan90Shortcut' },
+    { label: 'Comment tu travailles ?', msg: 'Comment tu abordes un nouveau projet ?' },
+    { label: 'Ton profil en 30 sec', msg: 'Résume ton profil en 30 secondes' },
+    { label: 'Ce qui n\'a pas marché', msg: 'Ce qui n\'a pas marché' },
+    { label: 'Agents IA — comment ça décide ?', msg: 'Explique-moi comment tes agents IA prennent des décisions' },
+    { label: 'Automatiser les devis', msg: 'Comment tu automatises le traitement des demandes de prix ?' },
+    { label: 'Ton générateur d\'images IA', msg: 'Ton générateur d\'images IA' },
+    { label: 'Tes scripts Python', msg: 'Tes scripts Python' },
+    { label: 'Prospection B2B', msg: 'Prospection B2B' },
+    { label: 'Louche ou Pas ?', msg: 'Parle-moi de Louche ou Pas' },
+    { label: 'Matcher Pipedrive × Lemlist', msg: 'Ton matcher Pipedrive Lemlist' },
+    { label: 'Tes erreurs', msg: 'Quelles erreurs tu vois souvent en entreprise ?' },
+    { label: 'Usage IA concret', msg: 'Comment tu utilises l\'IA concrètement ?' },
+    { label: 'PME industrielle', msg: 'Je suis une PME industrielle, que fais-tu ?' },
+    { label: 'Suivi commercial', msg: 'Mes commerciaux ne suivent pas les leads' },
+    { label: 'Automatiser concrètement', msg: 'Qu\'est-ce que je peux automatiser concrètement ?' },
+  ],
+  en: [
+    { label: 'What do you do?', msg: 'What do you do?' },
+    { label: 'Show me a system', msg: 'Show me a system you built' },
+    { label: 'Quick summary', msg: 'Quick summary' },
+    { label: 'Business impact', fn: 'openImpactShortcut' },
+    { label: '90-day plan', fn: 'openPlan90Shortcut' },
+    { label: 'How you work?', msg: 'How do you approach a new project?' },
+    { label: 'Your profile in 30s', msg: 'Summarize your profile in 30 seconds' },
+    { label: 'What didn\'t work', msg: 'What didn\'t work' },
+    { label: 'AI agents — how they decide?', msg: 'Explain how your AI agents make decisions' },
+    { label: 'Automate quotes', msg: 'How do you automate quote request processing?' },
+    { label: 'Your AI image generator', msg: 'Your AI image generator' },
+    { label: 'Python scripts', msg: 'Your Python scripts' },
+    { label: 'B2B prospecting', msg: 'B2B prospecting' },
+    { label: 'Louche ou Pas?', msg: 'Tell me about Louche ou Pas' },
+    { label: 'Pipedrive × Lemlist matcher', msg: 'Your Pipedrive Lemlist matcher' },
+    { label: 'Your mistakes', msg: 'What mistakes do you often see?' },
+    { label: 'Practical AI use', msg: 'How do you actually use AI?' },
+    { label: 'Industrial SME', msg: 'I run an industrial SME, what do you do?' },
+    { label: 'Sales follow-up', msg: 'My sales team doesn\'t follow up' },
+    { label: 'What to automate', msg: 'What can I actually automate?' },
+  ]
+};
+
+function initChips() {
+  const container = document.getElementById('chipsPrimary');
+  if (!container) return;
+  const pool = CHIPS_POOL[lang] || CHIPS_POOL.fr;
+  // Shuffle Fisher-Yates
+  const shuffled = [...pool];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  // Prendre 4 chips au hasard
+  const selected = shuffled.slice(0, 4);
+  const moreBtn = document.getElementById('chipsMoreBtn');
+  selected.forEach(chip => {
+    const btn = document.createElement('button');
+    btn.className = 'chip chip-primary';
+    btn.textContent = chip.label;
+    if (chip.fn) {
+      btn.onclick = () => window[chip.fn]();
+    } else {
+      btn.setAttribute('data-fr', chip.msg);
+      btn.setAttribute('data-en', chip.msg);
+      btn.onclick = () => chipSend(btn);
+    }
+    container.insertBefore(btn, moreBtn);
+  });
 }
 
 /* ── DATA ── */
@@ -1472,6 +1544,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   // Charger le compteur — appel initial
   loadCounter();
+  initChips();
 
   // Titre d'onglet dynamique
   const titleDefault = document.title;
